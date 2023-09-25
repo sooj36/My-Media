@@ -4,4 +4,11 @@
     <string name="menu_home">Home</string>
     <string name="menu_search">Search</string>
     <string name="menu_my_video">MyVideo</string>
+    <string name="user_name">username</string>
+    <string name="description">This is 12team channel.Enjoy your time thank u!\n business: sydneeey77@gmail.com</string>
+    <string name="github">Github</string>
+    <string name="notion">Notion</string>
+    <string name="my_favorite_Videos">My Favorite Videos</string>
+    <string name="title">title</string>
+
 </resources>

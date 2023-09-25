@@ -1,11 +1,15 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'//직렬화로추가
+    id 'kotlin-android'//직렬화로추가
 }
 
 android {
     namespace 'com.example.my_media'
     compileSdk 33
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
     defaultConfig {
         applicationId "com.example.my_media"
@@ -13,7 +17,7 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        buildConfigField "String", "API_KEY", properties["api_key"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -32,11 +36,14 @@ android {
     }
 
     buildFeatures {
+        buildConfig true
         viewBinding true
     }
 }
 
 dependencies {
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1" // ViewModel 라이브러리
+    implementation "androidx.fragment:fragment-ktx:1.4.0" // AndroidX Fragment 라이브러리
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
