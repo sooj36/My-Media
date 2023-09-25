@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.my_media.R
 import com.example.my_media.databinding.FragmentHomeBinding
 
 class HomeFragment: Fragment() {
@@ -28,7 +29,10 @@ class HomeFragment: Fragment() {
     }
 
     private fun initView() = with(binding) {
-
+        when(chipGroup.checkedChipId) {
+//            R.id.chip_travel -> ...
+            // Todo 키워드 클릭 관련 처리
+        }
     }
 
     override fun onDestroyView() {
