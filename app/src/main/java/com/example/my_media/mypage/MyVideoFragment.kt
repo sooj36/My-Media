@@ -23,22 +23,19 @@ class MyVideoFragment : Fragment() {
     private var _binding: FragmentMyVideoBinding? = null
     private val viewModel: MyVideoViewModel by viewModels { MyVideoViewModelFactory() }
     private val binding get() = _binding!!
-    private val adapter: MyVideoAdapter by lazy { binding.favoriteRVArea.adapter as MyVideoAdapter }
+//    private val adapter: MyVideoAdapter by lazy { binding.favoriteRVArea.adapter as MyVideoAdapter }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMyVideoBinding.inflate(inflater, container, false)
 
-        binding.apply {
-            favoriteRVArea.adapter = MyVideoAdapter()
-            favoriteRVArea.layoutManager = GridLayoutManager(context, 2)
-//            adapter.submitList()
-        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        setUpRecylclerView()
 //      initViewModel()
         binding.apply {
             gitgubArea.setOnClickListener {
@@ -68,6 +65,14 @@ class MyVideoFragment : Fragment() {
     private fun openLinkNotion() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://teamsparta.notion.site/12-S-A-f79dc026055d4ec98d97ff1e3bffe057"))
         startActivity(intent)
+    }
+    private fun setUpRecylclerView(){
+        binding.apply {
+//            favoriteRVArea.adapter = MyVideoAdapter()
+            favoriteRVArea.layoutManager = GridLayoutManager(context, 2)
+//            adapter.submitList()
+        }
+
     }
 
     override fun onDestroyView() {
