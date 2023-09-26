@@ -2,6 +2,7 @@ package com.example.my_media.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.my_media.BuildConfig
 import com.example.my_media.R
 import com.example.my_media.databinding.ActivityMainBinding
 import com.example.my_media.home.HomeFragment
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction().add(R.id.frameLayout, HomeFragment.newInstance()).commit()
         }
         initView()
+
     }
 
     private fun initView() = with(binding) {

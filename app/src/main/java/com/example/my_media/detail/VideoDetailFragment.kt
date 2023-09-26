@@ -15,10 +15,7 @@ class VideoDetailFragment: Fragment() {
     private var _binding: FragmentVideoDetailBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentVideoDetailBinding.inflate(inflater, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View { _binding = FragmentVideoDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
