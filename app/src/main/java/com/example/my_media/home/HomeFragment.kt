@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.my_media.R
 import com.example.my_media.databinding.FragmentHomeBinding
+import com.example.my_media.home.popular.HomePopularListAdapter
+import com.example.my_media.home.subscribe.HomeSubscribeListAdapter
 
 class HomeFragment: Fragment() {
     companion object {
@@ -21,8 +22,15 @@ class HomeFragment: Fragment() {
 
     private val viewModel: HomeViewModel by viewModels() { HomeViewModelFactory() }
 
-    private val homeListAdapter by lazy {
-        HomeListAdapter(
+    private val homeSubscribeListAdapter by lazy {
+        HomeSubscribeListAdapter(
+            itemClickListener = { item ->
+                //Todo (VideoDetailFragment 로 데이터 전달)
+            }
+        )
+    }
+    private val homePopularListAdapter by lazy {
+        HomePopularListAdapter(
             itemClickListener = { item ->
                 //Todo (VideoDetailFragment 로 데이터 전달)
             }
@@ -43,13 +51,13 @@ class HomeFragment: Fragment() {
     }
 
     private fun initView() = with(binding) {
-        recyclerViewPopular.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = homeListAdapter
-        }
         recyclerViewSubscribe.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = homeSubscribeListAdapter
+        }
+        recyclerViewPopular.apply {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            adapter = homeListAdapter
+            adapter = homePopularListAdapter
         }
 
         when(chipGroup.checkedChipId) {
@@ -59,9 +67,12 @@ class HomeFragment: Fragment() {
     }
 
     private fun initViewModel() = with(viewModel) {
-        list.observe(viewLifecycleOwner) {
-//            homeListAdapter.submitList(it)
+        subscribeList.observe(viewLifecycleOwner) {
+//            homeSubscribeListAdapter.submitList(it)
         }
+//        popularVideoList.observe(viewLifecycleOwner) {
+//            homePopularListAdapter.submitList(it)
+//        }
     }
 
     override fun onDestroyView() {

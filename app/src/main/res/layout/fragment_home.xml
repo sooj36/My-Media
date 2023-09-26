@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:checkedChip="@id/chip_travel"
-        app:layout_constraintBottom_toTopOf="@id/txt_popular_videos"
+        app:layout_constraintBottom_toTopOf="@id/txt_subscribe_videos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -57,29 +57,6 @@
     </com.google.android.material.chip.ChipGroup>
 
     <TextView
-        android:id="@+id/txt_popular_videos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/home_txt_popular_videos"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/recyclerView_popular"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chip_group" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_popular"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toTopOf="@id/txt_subscribe_videos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_popular_videos"
-        tools:listitem="@layout/item_videos" />
-
-    <TextView
         android:id="@+id/txt_subscribe_videos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,15 +67,38 @@
         app:layout_constraintBottom_toTopOf="@id/recyclerView_subscribe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView_popular" />
+        app:layout_constraintTop_toBottomOf="@id/chip_group" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_subscribe"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toTopOf="@id/txt_popular_videos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_subscribe_videos"
+        tools:listitem="@layout/item_subscribe" />
+
+    <TextView
+        android:id="@+id/txt_popular_videos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/home_txt_popular_videos"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/recyclerView_subscribe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView_subscribe" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_popular"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_subscribe_videos"
+        app:layout_constraintTop_toBottomOf="@id/txt_popular_videos"
         tools:listitem="@layout/item_videos" />
 </androidx.constraintlayout.widget.ConstraintLayout>
