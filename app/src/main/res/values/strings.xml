@@ -10,5 +10,8 @@
     <string name="notion">Notion</string>
     <string name="my_favorite_Videos">My Favorite Videos</string>
     <string name="title">title</string>
+    <string name="subcribe">구독</string>
+    <string name="shared">공유</string>
+    <string name="description2">description.......</string>
 
 </resources>
