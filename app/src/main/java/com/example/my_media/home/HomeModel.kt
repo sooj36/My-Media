@@ -1,4 +1,7 @@
 package com.example.my_media.home
 
-class HomeModel {
-}
+data class HomeModel(
+    val id: Long,
+    val imgThumbnail: String,
+    val txtTitle: String
+)

@@ -1,4 +1,9 @@
 package com.example.my_media.data
 
-class Repository {
+interface Repository {
+
+}
+
+class RepositoryImpl: Repository {
+
 }
