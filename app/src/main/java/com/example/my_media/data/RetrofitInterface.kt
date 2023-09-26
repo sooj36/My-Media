@@ -1,4 +1,16 @@
 package com.example.my_media.data
 
-class RetrofitInterface {
+import com.example.my_media.BuildConfig
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+interface RetrofitInterface {
+    @GET("/v3/subscriptions")
+    suspend fun getSubscribe(
+        @Query("part") part: String = "snippet",
+        @Query("maxResults") maxResults: Int = 10,
+        @Query("mine") subscribe: Boolean = true,
+        @Query("order") order: String = "unread",
+        @Query("key") key: String = BuildConfig.API_KEY
+    ) : SubscribeResponse
 }

@@ -15,7 +15,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.Scope
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -29,9 +28,10 @@ class MainActivity : AppCompatActivity() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                finish()
+                Log.d("진입", "${account.email} / ${account.idToken}")
+                initView()
             } catch (e: ApiException) {
-
+                Log.e("GoogleSignIn", "Google Sign-In failed: ${e.statusCode}, message: ${e.message}")
             }
         }
     }
@@ -41,14 +41,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if(savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().add(R.id.frameLayout, HomeFragment.newInstance()).commit()
-        }
-        initView()
+        requestGoogleLogin()
     }
 
     private fun initView() = with(binding) {
-        requestGoogleLogin()
+        supportFragmentManager.beginTransaction().add(R.id.frameLayout, HomeFragment.newInstance()).commit()
+
         bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.menu_home -> supportFragmentManager.beginTransaction().replace(R.id.frameLayout, HomeFragment.newInstance()).commit()
@@ -66,8 +64,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getGoogleClient(): GoogleSignInClient {
         val googleSignInOption = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestScopes(Scope("https://www.googleapis.com/auth/pubsub"))
-            .requestServerAuthCode(BuildConfig.GOOGLE_CLIENT_ID)
+            .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
             .requestEmail()
             .build()
         return GoogleSignIn.getClient(this, googleSignInOption)
