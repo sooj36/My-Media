@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.my_media.R
@@ -15,7 +16,7 @@ class HomeFragment: Fragment() {
     companion object {
         fun newInstance() = HomeFragment()
     }
-
+    private lateinit var adapter : HomeListAdapter
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -29,6 +30,8 @@ class HomeFragment: Fragment() {
         )
     }
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -40,15 +43,17 @@ class HomeFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         initViewModel()
+
     }
 
     private fun initView() = with(binding) {
         recyclerViewPopular.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = homeListAdapter
         }
         recyclerViewSubscribe.apply {
-            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
             adapter = homeListAdapter
         }
 

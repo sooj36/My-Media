@@ -6,12 +6,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.my_media.data.PopularVideosResponse
 import com.example.my_media.databinding.ItemVideosBinding
+import java.util.ArrayList
 
 class HomeListAdapter(
     val itemClickListener: (HomeModel) -> Unit
-): ListAdapter<HomeModel, HomeListAdapter.ViewHolder>(
-    object: DiffUtil.ItemCallback<HomeModel>() {
+) : ListAdapter<HomeModel, HomeListAdapter.ViewHolder>(
+    object : DiffUtil.ItemCallback<HomeModel>() {
         override fun areItemsTheSame(oldItem: HomeModel, newItem: HomeModel): Boolean {
             return oldItem.id == newItem.id //추후 고유값으로 수정
         }
@@ -19,9 +21,12 @@ class HomeListAdapter(
         override fun areContentsTheSame(oldItem: HomeModel, newItem: HomeModel): Boolean {
             return oldItem == newItem
         }
+
+        var list = ArrayList<PopularVideosResponse>()
     }
 ) {
-    inner class ViewHolder(private val binding: ItemVideosBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemVideosBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: HomeModel) = with(binding) {
             imgThumbnail.load(item.imgThumbnail)
             txtTitle.text = item.txtTitle
@@ -32,10 +37,13 @@ class HomeListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemVideosBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(
+            ItemVideosBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+
     }
 }
