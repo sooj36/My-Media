@@ -1,4 +1,7 @@
-package com.example.my_media.home
+package com.example.my_media.mypage
 
-class HomeListAdapter {
-}
+
+class HomeListAdapter()
+
+
+
