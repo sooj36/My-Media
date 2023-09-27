@@ -36,7 +36,7 @@ class MyVideoAdapter() : ListAdapter<MyVideoModel,MyVideoAdapter.ViewHolder>(Tes
                         error(R.drawable.test)
                     }
                 }
-                titleArea.text = item.title
+                ivTitleArea.text = item.title
             }
         }
     }
