@@ -1,5 +1,6 @@
 package com.example.my_media.home
 
+import android.util.Log
 import android.view.MenuItem
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,14 +13,24 @@ import com.example.my_media.data.RepositoryImpl
 import com.example.my_media.data.RetrofitInterface
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val repositoryImpl: RepositoryImpl) : ViewModel() {
+class HomeViewModel(private val repository: Repository) : ViewModel() {
     private val _showPopularVideo: MutableLiveData<List<HomeModel>> = MutableLiveData()
     val list: LiveData<List<HomeModel>> get() = _showPopularVideo
 
     fun getPopularVideo(itemList: ArrayList<HomeModel>) {
-        val currentList = list.value.orEmpty().toMutableList()
-        currentList.addAll(itemList)
-        _showPopularVideo.value = currentList
+        viewModelScope.launch {
+            val response = repository.getPopularVideo().items // 모든 데이터
+            val popularVideoItems = ArrayList<HomeModel>()
+            response.forEach {
+                popularVideoItems.add(
+                    HomeModel(
+                        it.snippet.title,
+                        it.snippet.description,
+                        it.snippet.thumbnails
+                    )
+                )
+            }// 일부 값 추출
+        }
     }
 }
 

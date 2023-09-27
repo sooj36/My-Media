@@ -15,7 +15,7 @@ class HomeListAdapter(
 ) : ListAdapter<HomeModel, HomeListAdapter.ViewHolder>(
     object : DiffUtil.ItemCallback<HomeModel>() {
         override fun areItemsTheSame(oldItem: HomeModel, newItem: HomeModel): Boolean {
-            return oldItem.id == newItem.id //추후 고유값으로 수정
+            return oldItem.txtTitle == newItem.txtTitle //추후 고유값으로 수정  (임시로 id를 txtTitle로 변경함)
         }
 
         override fun areContentsTheSame(oldItem: HomeModel, newItem: HomeModel): Boolean {
