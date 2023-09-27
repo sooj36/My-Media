@@ -6,22 +6,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.my_media.data.RemoteDataSource
-import com.example.my_media.data.RepositoryImpl
-import com.example.my_media.data.RetrofitInterface
+import com.example.my_media.data.RetrofitClient
+import com.example.my_media.data.YoutubeRemoteDataSource
+import com.example.my_media.data.YoutubeRepositoryImpl
 import com.example.my_media.home.subscribe.HomeSubscribeModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-class HomeViewModel(private val repositoryImpl: RepositoryImpl): ViewModel() {
+class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl): ViewModel() {
     private val _subscribeList: MutableLiveData<List<HomeSubscribeModel>> = MutableLiveData()
     val subscribeList: LiveData<List<HomeSubscribeModel>> get() = _subscribeList
 
-    fun getSubscribeList() {
+    fun getSubscribeList(accessToken: String) {
         viewModelScope.launch {
             try {
-                val responseSubscribeData = repositoryImpl.getSubscribe().items
-                Log.d("진입", "$responseSubscribeData")
+                val responseSubscribeData = youtubeRepositoryImpl.getSubscribe(accessToken).items
                 val subscribeItems = ArrayList<HomeSubscribeModel>()
                 responseSubscribeData.forEach {
                     subscribeItems.add(
@@ -41,11 +40,8 @@ class HomeViewModel(private val repositoryImpl: RepositoryImpl): ViewModel() {
     }
 }
 
-class HomeViewModelFactory(
-    private val service: RetrofitInterface,
-    private val accessToken: String
-) : ViewModelProvider.Factory {
-    private val repository = RepositoryImpl(RemoteDataSource(service, accessToken))
+class HomeViewModelFactory : ViewModelProvider.Factory {
+    private val repository = YoutubeRepositoryImpl(RetrofitClient.service)
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             return HomeViewModel(repository) as T

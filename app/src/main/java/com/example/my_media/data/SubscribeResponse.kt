@@ -1,47 +1,48 @@
 package com.example.my_media.data
 
+import com.google.gson.annotations.SerializedName
 import java.util.Date
 
 data class SubscribeResponse (
-    val kind: String = "youtube#subscriptionListResponse",
-    val etag: String,
-    val nextPageToken: String,
-    val pageInfo: PageInfo,
-    val items: MutableList<Items>
+    @SerializedName("kind") val kind: String = "youtube#subscriptionListResponse",
+    @SerializedName("etag") val eTag: String,
+    @SerializedName("nextPageToken") val nextPageToken: String,
+    @SerializedName("pageInfo") val pageInfo: PageInfo,
+    @SerializedName("items") val items: MutableList<Items>
 )
 
 data class PageInfo(
-    val totalResults: Int,
-    val resultsPerPage: Int
+    @SerializedName("totalResults") val totalResults: Int,
+    @SerializedName("resultsPerPage") val resultsPerPage: Int
 )
 
 data class Items(
-    val kind: String = "youtube#subscription",
-    val etag: String,
-    val id: String,
-    val snippet: Snippet
+    @SerializedName("kind") val kind: String = "youtube#subscription",
+    @SerializedName("etag") val eTag: String,
+    @SerializedName("id") val id: String,
+    @SerializedName("snippet") val snippet: Snippet
 )
 
 data class Snippet(
-    val publishedAt: Date,
-    val title: String,
-    val description: String?,
-    val resourceId: ResourceId,
-    val channelId: String,
-    val thumbnails: Thumbnails
+    @SerializedName("publishedAt") val publishedAt: Date,
+    @SerializedName("title") val title: String,
+    @SerializedName("description") val description: String?,
+    @SerializedName("resourceId") val resourceId: ResourceId,
+    @SerializedName("channelId") val channelId: String,
+    @SerializedName("thumbnails") val thumbnails: Thumbnails
 )
 
 data class ResourceId(
-    val kind: String ="youtube#channel",
-    val channelId: String
+    @SerializedName("kind") val kind: String ="youtube#channel",
+    @SerializedName("channelId") val channelId: String
 )
 
 data class Thumbnails(
-    val default: ThumbnailsUrl,
-    val medium: ThumbnailsUrl,
-    val high: ThumbnailsUrl
+    @SerializedName("default") val default: ThumbnailsUrl,
+    @SerializedName("medium") val medium: ThumbnailsUrl,
+    @SerializedName("high") val high: ThumbnailsUrl
 )
 
 data class ThumbnailsUrl(
-    val url: String
+    @SerializedName("url") val url: String
 )

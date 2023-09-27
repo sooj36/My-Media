@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.my_media.data.RetrofitClient
-import com.example.my_media.data.RetrofitInterface
 import com.example.my_media.databinding.FragmentHomeBinding
 import com.example.my_media.home.popular.HomePopularListAdapter
 import com.example.my_media.home.subscribe.HomeSubscribeListAdapter
@@ -29,10 +28,7 @@ class HomeFragment: Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels() {
-        HomeViewModelFactory(
-            RetrofitClient.retrofit.create(RetrofitInterface::class.java),
-            arguments?.getString("AccessToken") ?: ""
-        )
+        HomeViewModelFactory()
     }
 
     private val homeSubscribeListAdapter by lazy {
@@ -70,7 +66,8 @@ class HomeFragment: Fragment() {
             adapter = homePopularListAdapter
         }
 
-        viewModel.getSubscribeList() //구독 리스트 불러오기
+        val accessToken = arguments?.getString("AccessToken") ?: ""
+        viewModel.getSubscribeList("Bearer $accessToken") //구독 리스트 불러오기
 
         when(chipGroup.checkedChipId) {
 //            R.id.chip_travel -> ...

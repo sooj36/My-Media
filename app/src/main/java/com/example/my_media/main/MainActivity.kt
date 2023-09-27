@@ -12,17 +12,12 @@ import com.example.my_media.home.HomeFragment
 import com.example.my_media.mypage.MyVideoFragment
 import com.example.my_media.search.SearchFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
-    private val googleSignInClient: GoogleSignInClient by lazy {
-        getGoogleClient()
-    }
 
     private val googleAuthLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -44,9 +39,22 @@ class MainActivity : AppCompatActivity() {
         requestGoogleLogin()
     }
 
-    private fun initView(idToken: String) = with(binding) {
-        Log.d("진입", "$idToken")
-        val homeFragment = HomeFragment.newInstance(idToken)
+    private fun requestGoogleLogin() {
+        val googleSignInOption = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
+//            .requestServerAuthCode(BuildConfig.GOOGLE_CLIENT_ID)
+            .requestEmail()
+            .requestScopes(Scope("https://www.googleapis.com/auth/youtube.force-ssl"))
+//            .requestScopes(Scope(YouTubeScopes.YOUTUBE_READONLY))
+            .build()
+        val googleSignInClient = GoogleSignIn.getClient(this, googleSignInOption)
+
+        googleSignInClient.signOut()
+        googleAuthLauncher.launch(googleSignInClient.signInIntent)
+    }
+
+    private fun initView(accessToken: String) = with(binding) {
+        val homeFragment = HomeFragment.newInstance(accessToken)
         supportFragmentManager.beginTransaction().add(R.id.frameLayout, homeFragment).commit()
 
         bottomNavigationView.setOnItemSelectedListener { item ->
@@ -57,20 +65,5 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-    }
-
-    private fun requestGoogleLogin() {
-        googleSignInClient.signOut()
-        googleAuthLauncher.launch(googleSignInClient.signInIntent)
-    }
-
-    private fun getGoogleClient(): GoogleSignInClient {
-        val googleSignInOption = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestScopes(Scope("https://www.googleapis.com/auth/youtube.readonly"))
-            .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
-            .requestServerAuthCode(BuildConfig.GOOGLE_CLIENT_ID)
-            .requestEmail()
-            .build()
-        return GoogleSignIn.getClient(this, googleSignInOption)
     }
 }
