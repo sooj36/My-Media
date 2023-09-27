@@ -1,6 +1,5 @@
 package com.example.my_media.data
 
-import android.icu.text.ListFormatter.Width
 import com.google.gson.annotations.SerializedName
 
 data class PopularVideosResponse (
@@ -11,23 +10,23 @@ data class PopularVideosList (
     @SerializedName("kind") val kind: String,
     @SerializedName("etag") val etag: String,
     @SerializedName("id") val id :  String,
-    @SerializedName("snippet") val snippet : Snippet,
+    @SerializedName("snippet") val popularSnippet : PopularSnippet,
     @SerializedName("channelTitle") val channelTitle : String,
     @SerializedName("detaultLanguage") val defaultLanguage : String,
     @SerializedName("categoryId") val categoryId :  Int,
 )
 
-data class Snippet (
+data class PopularSnippet (
     @SerializedName("publishedAt") val publishedAt : String,
     @SerializedName("channelId") val channelId : String,
     @SerializedName("title") val title : String,
     @SerializedName("description") val description : String,
-    @SerializedName("thumbnails") val thumbnails : Thumbnails,
+    @SerializedName("thumbnails") val popularThumbnails : PopularThumbnails,
     @SerializedName("standard") val standard : String,
 )
 
 // 썸네일
-data class Thumbnails (
+data class PopularThumbnails (
     @SerializedName("standard") val standard: Standard
 )
 

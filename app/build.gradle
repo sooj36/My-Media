@@ -19,10 +19,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "API_KEY", properties["api_key"]
         buildConfigField "String", "BASE_URL", properties["base_url"]
-
-
+        buildConfigField "String", "API_KEY", properties["api_key"]
+        buildConfigField "String", "GOOGLE_CLIENT_ID", properties["google_client_id"]
     }
 
     buildTypes {
@@ -39,6 +38,10 @@ android {
         jvmTarget = '1.8'
     }
 
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+    }
+
     buildFeatures {
         viewBinding true
         buildConfig true
@@ -51,9 +54,25 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //retrofit
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    //image loader
     implementation 'io.coil-kt:coil:2.4.0'
+
+    //viewModel
     implementation 'androidx.activity:activity-ktx:1.7.2'
     implementation 'androidx.fragment:fragment-ktx:1.6.1'
+
+    //OAuth 2.0 X Youtube Data API v3
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
+    implementation 'com.google.apis:google-api-services-youtube:v3-rev183-1.22.0'
+    implementation 'com.google.api-client:google-api-client:1.33.0'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
