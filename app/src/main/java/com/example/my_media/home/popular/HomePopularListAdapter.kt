@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.my_media.R
 import com.example.my_media.databinding.ItemVideosBinding
 
 class HomePopularListAdapter(
@@ -13,7 +14,7 @@ class HomePopularListAdapter(
 ): ListAdapter<HomePopularModel, HomePopularListAdapter.ViewHolder>(
     object: DiffUtil.ItemCallback<HomePopularModel>() {
         override fun areItemsTheSame(oldItem: HomePopularModel, newItem: HomePopularModel): Boolean {
-            return oldItem.id == newItem.id //추후 고유값으로 수정
+            return oldItem.txtTitle == newItem.txtTitle
         }
 
         override fun areContentsTheSame(oldItem: HomePopularModel, newItem: HomePopularModel): Boolean {
@@ -21,9 +22,13 @@ class HomePopularListAdapter(
         }
     }
 ) {
-    inner class ViewHolder(private val binding: ItemVideosBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemVideosBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: HomePopularModel) = with(binding) {
-            imgThumbnail.load(item.imgThumbnail)
+            val s = item.imgThumbnail
+            imgThumbnail.load(s) {
+                error(R.drawable.ic_launcher_background)
+            }
             txtTitle.text = item.txtTitle
             root.setOnClickListener {
                 itemClickListener(item)
@@ -32,10 +37,13 @@ class HomePopularListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemVideosBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(
+            ItemVideosBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+
     }
 }

@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.my_media.data.RetrofitClient
 import com.example.my_media.databinding.FragmentHomeBinding
 import com.example.my_media.home.popular.HomePopularListAdapter
 import com.example.my_media.home.subscribe.HomeSubscribeListAdapter
 
-class HomeFragment: Fragment() {
+
+class HomeFragment : Fragment() {
     companion object {
         fun newInstance(accessToken: String) : HomeFragment {
             val args = Bundle()
@@ -43,6 +43,7 @@ class HomeFragment: Fragment() {
         )
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -69,6 +70,8 @@ class HomeFragment: Fragment() {
         val accessToken = arguments?.getString("AccessToken") ?: ""
         viewModel.getSubscribeList("Bearer $accessToken") //구독 리스트 불러오기
 
+        viewModel.getPopularVideo()
+
         when(chipGroup.checkedChipId) {
 //            R.id.chip_travel -> ...
             // Todo (키워드 클릭 관련 처리)
@@ -79,9 +82,10 @@ class HomeFragment: Fragment() {
         subscribeList.observe(viewLifecycleOwner) {
             homeSubscribeListAdapter.submitList(it)
         }
-//        popularVideoList.observe(viewLifecycleOwner) {
-//            homePopularListAdapter.submitList(it)
-//        }
+
+        popularVideoList.observe(viewLifecycleOwner) {
+            homePopularListAdapter.submitList(it)
+        }
     }
 
     override fun onDestroyView() {

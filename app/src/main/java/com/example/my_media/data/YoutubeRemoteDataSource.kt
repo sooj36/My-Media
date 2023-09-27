@@ -14,4 +14,14 @@ interface YoutubeRemoteDataSource {
         @Query("mine") subscribe: Boolean = true,
         @Query("order") order: String = "unread"
     ) : SubscribeResponse
+
+    @GET("youtube/v3/videos")
+    suspend fun getPopularVideo(
+        @Query("part") part : String = "snippet",
+        @Query("chart") chart : String = "mostPopular",
+        @Query("maxResults") maxResults : Int = 20,
+        @Query("regionCode") regionCode : String = "KR",
+//        @Query("videoCategoryId") videoCategoryId : String,
+        @Query("key") key: String
+    ) : PopularVideosResponse
 }

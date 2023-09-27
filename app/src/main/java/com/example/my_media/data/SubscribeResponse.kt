@@ -20,16 +20,16 @@ data class Items(
     @SerializedName("kind") val kind: String = "youtube#subscription",
     @SerializedName("etag") val eTag: String,
     @SerializedName("id") val id: String,
-    @SerializedName("snippet") val snippet: Snippet
+    @SerializedName("snippet") val subscribeSnippet: SubscribeSnippet
 )
 
-data class Snippet(
+data class SubscribeSnippet(
     @SerializedName("publishedAt") val publishedAt: Date,
     @SerializedName("title") val title: String,
     @SerializedName("description") val description: String?,
     @SerializedName("resourceId") val resourceId: ResourceId,
     @SerializedName("channelId") val channelId: String,
-    @SerializedName("thumbnails") val thumbnails: Thumbnails
+    @SerializedName("thumbnails") val subscribeThumbnails: SubscribeThumbnails
 )
 
 data class ResourceId(
@@ -37,7 +37,7 @@ data class ResourceId(
     @SerializedName("channelId") val channelId: String
 )
 
-data class Thumbnails(
+data class SubscribeThumbnails(
     @SerializedName("default") val default: ThumbnailsUrl,
     @SerializedName("medium") val medium: ThumbnailsUrl,
     @SerializedName("high") val high: ThumbnailsUrl

@@ -1,21 +1,23 @@
 package com.example.my_media.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.my_media.data.RetrofitClient
-import com.example.my_media.data.YoutubeRemoteDataSource
 import com.example.my_media.data.YoutubeRepositoryImpl
 import com.example.my_media.home.subscribe.HomeSubscribeModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import com.example.my_media.home.popular.HomePopularModel
 
 class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl): ViewModel() {
     private val _subscribeList: MutableLiveData<List<HomeSubscribeModel>> = MutableLiveData()
     val subscribeList: LiveData<List<HomeSubscribeModel>> get() = _subscribeList
+
+    private val _popularVideoList: MutableLiveData<List<HomePopularModel>> = MutableLiveData()
+    val popularVideoList: LiveData<List<HomePopularModel>> get() = _popularVideoList
 
     fun getSubscribeList(accessToken: String) {
         viewModelScope.launch {
@@ -25,8 +27,8 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl): V
                 responseSubscribeData.forEach {
                     subscribeItems.add(
                         HomeSubscribeModel(
-                            it.snippet.thumbnails.medium.url,
-                            it.snippet.title
+                            it.subscribeSnippet.subscribeThumbnails.medium.url,
+                            it.subscribeSnippet.title
                         )
                     )
                 }
@@ -36,6 +38,22 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl): V
             } catch (e: HttpException) {
                 e.printStackTrace()
             }
+        }
+    }
+    fun getPopularVideo() { //카테고리 아이디를 파라미터로 받기
+        viewModelScope.launch {
+            val response = youtubeRepositoryImpl.getPopularVideo().items // 모든 데이터
+            val popularVideoItems = ArrayList<HomePopularModel>()
+            response.forEach {
+                popularVideoItems.add(
+                    HomePopularModel(
+                        txtTitle = it.popularSnippet.title,
+                        txtDescription = it.popularSnippet.description,
+                        imgThumbnail = it.popularSnippet.popularThumbnails.standard.url
+                    )
+                )
+            }// 일부 값 추출
+            _popularVideoList.value = popularVideoItems // 호출
         }
     }
 }
