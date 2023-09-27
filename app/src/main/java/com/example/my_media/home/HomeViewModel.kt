@@ -41,8 +41,11 @@ class HomeViewModel(private val repositoryImpl: RepositoryImpl): ViewModel() {
     }
 }
 
-class HomeViewModelFactory(private val service: RetrofitInterface) : ViewModelProvider.Factory {
-    private val repository = RepositoryImpl(RemoteDataSource(service))
+class HomeViewModelFactory(
+    private val service: RetrofitInterface,
+    private val accessToken: String
+) : ViewModelProvider.Factory {
+    private val repository = RepositoryImpl(RemoteDataSource(service, accessToken))
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             return HomeViewModel(repository) as T

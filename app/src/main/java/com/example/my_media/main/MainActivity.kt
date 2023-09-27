@@ -15,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.Scope
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -28,8 +29,7 @@ class MainActivity : AppCompatActivity() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                Log.d("진입", "${account.email} / ${account.idToken}")
-                initView()
+                account.idToken?.let { initView(it) }
             } catch (e: ApiException) {
                 Log.e("GoogleSignIn", "Google Sign-In failed: ${e.statusCode}, message: ${e.message}")
             }
@@ -44,12 +44,14 @@ class MainActivity : AppCompatActivity() {
         requestGoogleLogin()
     }
 
-    private fun initView() = with(binding) {
-        supportFragmentManager.beginTransaction().add(R.id.frameLayout, HomeFragment.newInstance()).commit()
+    private fun initView(idToken: String) = with(binding) {
+        Log.d("진입", "$idToken")
+        val homeFragment = HomeFragment.newInstance(idToken)
+        supportFragmentManager.beginTransaction().add(R.id.frameLayout, homeFragment).commit()
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
-                R.id.menu_home -> supportFragmentManager.beginTransaction().replace(R.id.frameLayout, HomeFragment.newInstance()).commit()
+                R.id.menu_home -> supportFragmentManager.beginTransaction().replace(R.id.frameLayout, homeFragment).commit()
                 R.id.menu_search -> supportFragmentManager.beginTransaction().replace(R.id.frameLayout, SearchFragment.newInstance()).commit()
                 R.id.menu_my_video -> supportFragmentManager.beginTransaction().replace(R.id.frameLayout, MyVideoFragment.newInstance()).commit()
             }
@@ -64,7 +66,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun getGoogleClient(): GoogleSignInClient {
         val googleSignInOption = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestScopes(Scope("https://www.googleapis.com/auth/youtube.readonly"))
             .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
+            .requestServerAuthCode(BuildConfig.GOOGLE_CLIENT_ID)
             .requestEmail()
             .build()
         return GoogleSignIn.getClient(this, googleSignInOption)

@@ -16,23 +16,29 @@ import com.example.my_media.home.subscribe.HomeSubscribeListAdapter
 
 class HomeFragment: Fragment() {
     companion object {
-        fun newInstance() = HomeFragment()
+        fun newInstance(accessToken: String) : HomeFragment {
+            val args = Bundle()
+            args.putString("AccessToken", accessToken)
+            val fragment = HomeFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels() {
-        HomeViewModelFactory(RetrofitClient.retrofit.create(RetrofitInterface::class.java))
+        HomeViewModelFactory(
+            RetrofitClient.retrofit.create(RetrofitInterface::class.java),
+            arguments?.getString("AccessToken") ?: ""
+        )
     }
 
     private val homeSubscribeListAdapter by lazy {
-        HomeSubscribeListAdapter(
-            itemClickListener = { item ->
-                //Todo (VideoDetailFragment 로 데이터 전달)
-            }
-        )
+        HomeSubscribeListAdapter()
     }
+
     private val homePopularListAdapter by lazy {
         HomePopularListAdapter(
             itemClickListener = { item ->
