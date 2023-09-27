@@ -6,7 +6,7 @@ import com.example.my_media.BuildConfig
 import com.example.my_media.R
 import com.example.my_media.databinding.ActivityMainBinding
 import com.example.my_media.home.HomeFragment
-import com.example.my_media.mypage.MyVideoFragment
+//import com.example.my_media.mypage.MyVideoFragment
 import com.example.my_media.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId) {
                 R.id.menu_home -> supportFragmentManager.beginTransaction().replace(R.id.frameLayout, HomeFragment.newInstance()).commit()
                 R.id.menu_search -> supportFragmentManager.beginTransaction().replace(R.id.frameLayout, SearchFragment.newInstance()).commit()
-                R.id.menu_my_video -> supportFragmentManager.beginTransaction().replace(R.id.frameLayout, MyVideoFragment.newInstance()).commit()
+//                R.id.menu_my_video -> supportFragmentManager.beginTransaction().replace(R.id.frameLayout, MyVideoFragment.newInstance()).commit()
             }
             true
         }
