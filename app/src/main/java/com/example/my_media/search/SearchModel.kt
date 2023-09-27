@@ -1,4 +1,6 @@
 package com.example.my_media.search
 
-class SearchModel {
-}
+data class SearchModel (
+    var searchedTitle: String,
+    var searchedVideo: String
+)
