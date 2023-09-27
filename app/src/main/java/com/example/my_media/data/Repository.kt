@@ -1,7 +1,6 @@
 package com.example.my_media.data
 
 import com.example.my_media.BuildConfig
-import retrofit2.Response
 
 
 interface Repository {

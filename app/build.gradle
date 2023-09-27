@@ -23,7 +23,6 @@ android {
         buildConfigField "String", "BASE_URL", properties["base_url"]
 
 
-        /// base_url
     }
 
     buildTypes {
