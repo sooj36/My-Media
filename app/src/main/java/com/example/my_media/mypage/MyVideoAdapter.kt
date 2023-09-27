@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.my_media.databinding.FavoriteItemBinding
 
-class MyVideoAdapter() : ListAdapter<TestData,MyVideoAdapter.ViewHolder>(TestItemDiffCallback()){
+class MyVideoAdapter() : ListAdapter<MyVideoModel,MyVideoAdapter.ViewHolder>(TestItemDiffCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyVideoAdapter.ViewHolder {
         val binding = FavoriteItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -16,25 +16,26 @@ class MyVideoAdapter() : ListAdapter<TestData,MyVideoAdapter.ViewHolder>(TestIte
 
     override fun onBindViewHolder(holder: MyVideoAdapter.ViewHolder, position: Int) {
 
-        holder.bindItems(testItemList[position])
+        holder.bindItems(getItem(position))
 
 
     }
-    class TestItemDiffCallback : DiffUtil.ItemCallback<TestData>(){
-        override fun areItemsTheSame(oldItem: TestData, newItem: TestData): Boolean {
-         return oldItem == newItem
+    class TestItemDiffCallback : DiffUtil.ItemCallback<MyVideoModel>(){
+        override fun areItemsTheSame(oldItem: MyVideoModel, newItem: MyVideoModel): Boolean {
+         return oldItem.title == newItem.title
         }
 
-        override fun areContentsTheSame(oldItem: TestData, newItem: TestData): Boolean {
+        override fun areContentsTheSame(oldItem: MyVideoModel, newItem: MyVideoModel): Boolean {
           return oldItem == newItem
         }
 
     }
     inner class ViewHolder(private val binding: FavoriteItemBinding) :RecyclerView.ViewHolder(binding.root){
-        fun bindItems(item:TestData){
+        fun bindItems(item:MyVideoModel){
             binding.apply {
                 imageArea.setImageResource(item.photo)
-                titleArea.text = item.name
+                titleArea.text = item.title
+
             }
         }
     }

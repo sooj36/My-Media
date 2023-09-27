@@ -43,8 +43,9 @@ android {
 
 dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1" // ViewModel 라이브러리
-    implementation "androidx.fragment:fragment-ktx:1.4.0" // AndroidX Fragment 라이브러리
+    implementation "androidx.fragment:fragment-ktx:1.4.0" // 프래그먼트 viewModels
 
+    implementation "com.airbnb.android:lottie:6.1.0" //로티라이브러리
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.5.0'
