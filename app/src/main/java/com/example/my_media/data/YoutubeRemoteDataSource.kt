@@ -1,6 +1,6 @@
 package com.example.my_media.data
 
-import com.example.my_media.BuildConfig
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
@@ -24,4 +24,13 @@ interface YoutubeRemoteDataSource {
 //        @Query("videoCategoryId") videoCategoryId : String,
         @Query("key") key: String
     ) : PopularVideosResponse
+
+    @GET("youtube/v3/search")
+    suspend fun getSearchVideo(
+        @Query("part") part: String,
+        @Query("chart") chart: String?,
+        @Query("maxResults") maxResults: Int?,
+        @Query("regionCode") regionCode: String?,
+        @Query("key") apiKey: String
+    ): SearchVideoResponse
 }

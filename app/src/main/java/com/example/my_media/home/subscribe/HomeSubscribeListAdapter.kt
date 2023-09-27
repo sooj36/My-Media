@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.my_media.databinding.ItemSubscribeBinding
 
-class HomeSubscribeListAdapter(): ListAdapter<HomeSubscribeModel, HomeSubscribeListAdapter.ViewHolder>(
+class HomeSubscribeListAdapter: ListAdapter<HomeSubscribeModel, HomeSubscribeListAdapter.ViewHolder>(
     object: DiffUtil.ItemCallback<HomeSubscribeModel>() {
         override fun areItemsTheSame(oldItem: HomeSubscribeModel, newItem: HomeSubscribeModel): Boolean {
             return oldItem.imgThumbnail == newItem.imgThumbnail

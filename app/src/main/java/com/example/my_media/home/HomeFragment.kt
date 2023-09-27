@@ -12,7 +12,6 @@ import com.example.my_media.databinding.FragmentHomeBinding
 import com.example.my_media.home.popular.HomePopularListAdapter
 import com.example.my_media.home.subscribe.HomeSubscribeListAdapter
 
-
 class HomeFragment : Fragment() {
     companion object {
         fun newInstance(accessToken: String) : HomeFragment {
@@ -25,6 +24,7 @@ class HomeFragment : Fragment() {
     }
 
     private var _binding: FragmentHomeBinding? = null
+
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels() {
@@ -43,7 +43,6 @@ class HomeFragment : Fragment() {
         )
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -53,6 +52,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initView()
         initViewModel()
     }

@@ -38,11 +38,11 @@ data class ResourceId(
 )
 
 data class SubscribeThumbnails(
-    @SerializedName("default") val default: ThumbnailsUrl,
-    @SerializedName("medium") val medium: ThumbnailsUrl,
-    @SerializedName("high") val high: ThumbnailsUrl
+    @SerializedName("default") val default: SubscribeThumbnailsUrl,
+    @SerializedName("medium") val medium: SubscribeThumbnailsUrl,
+    @SerializedName("high") val high: SubscribeThumbnailsUrl
 )
 
-data class ThumbnailsUrl(
+data class SubscribeThumbnailsUrl(
     @SerializedName("url") val url: String
 )
