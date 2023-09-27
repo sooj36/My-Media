@@ -11,9 +11,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.my_media.R
 import com.example.my_media.databinding.FragmentMyVideoBinding
+import com.example.my_media.main.MainSharedEventforLike
+import com.example.my_media.main.MainSharedViewModel
 
 class MyVideoFragment : Fragment() {
     companion object {
@@ -22,10 +25,15 @@ class MyVideoFragment : Fragment() {
 
     private var _binding: FragmentMyVideoBinding? = null
     private val viewModel: MyVideoViewModel by viewModels { MyVideoViewModelFactory() }
+    private val sharedViewModel: MainSharedViewModel by activityViewModels()
     private val binding get() = _binding!!
-//    private val adapter: MyVideoAdapter by lazy { binding.favoriteRVArea.adapter as MyVideoAdapter }
+    private val adapter: MyVideoAdapter by lazy { binding.favoriteRVArea.adapter as MyVideoAdapter }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentMyVideoBinding.inflate(inflater, container, false)
 
 
@@ -36,7 +44,10 @@ class MyVideoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         setUpRecylclerView()
-//      initViewModel()
+        initViewModel()
+
+
+
         binding.apply {
             gitgubArea.setOnClickListener {
                 openLinkGit()
@@ -47,11 +58,28 @@ class MyVideoFragment : Fragment() {
         }
     }
 
-//    private fun initViewModel() = with(viewModel) {
-//        likeList.observe(viewLifecycleOwner) {
-//            //아직
-//        }
-//    }
+    private fun initViewModel() {
+        with(viewModel) {
+            likeList.observe(viewLifecycleOwner) {
+                adapter.submitList(it)
+
+            }
+        }
+        with(sharedViewModel) {
+            likeEvent.observe(viewLifecycleOwner) { event ->
+                when (event) {
+                    is MainSharedEventforLike.AddLikeItem -> {
+                        viewModel.addLikeItem(event.item)
+                    }
+
+                    is MainSharedEventforLike.RemoveLikeItem -> {
+                        viewModel.removeLikeItem(event.item)
+                    }
+                }
+            }
+        }
+    }
+
 
     private fun initView() = with(binding) {
 
@@ -63,14 +91,18 @@ class MyVideoFragment : Fragment() {
     }
 
     private fun openLinkNotion() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://teamsparta.notion.site/12-S-A-f79dc026055d4ec98d97ff1e3bffe057"))
+        val intent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("https://teamsparta.notion.site/12-S-A-f79dc026055d4ec98d97ff1e3bffe057")
+        )
         startActivity(intent)
     }
-    private fun setUpRecylclerView(){
+
+    private fun setUpRecylclerView() {
         binding.apply {
-//            favoriteRVArea.adapter = MyVideoAdapter()
+            favoriteRVArea.adapter = MyVideoAdapter()
             favoriteRVArea.layoutManager = GridLayoutManager(context, 2)
-//            adapter.submitList()
+
         }
 
     }
