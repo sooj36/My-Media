@@ -1,11 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:checkedChip="@id/chip_travel"
+        app:layout_constraintBottom_toTopOf="@id/txt_subscribe_videos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:singleLine="false"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_travel"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_chip_travel"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/pressed_chip" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_music"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_chip_music"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/pressed_chip" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_game"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_chip_game"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/pressed_chip" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sleep"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_chip_sleep"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/pressed_chip" />
+
+    </com.google.android.material.chip.ChipGroup>
 
     <TextView
+        android:id="@+id/txt_subscribe_videos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="HomeFragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/home_txt_subscribe_videos"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/recyclerView_subscribe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chip_group" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_subscribe"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toTopOf="@id/txt_popular_videos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_subscribe_videos"
+        tools:listitem="@layout/item_subscribe" />
+
+    <TextView
+        android:id="@+id/txt_popular_videos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/home_txt_popular_videos"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/recyclerView_subscribe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView_subscribe" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_popular"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_popular_videos"
+        tools:listitem="@layout/item_videos" />
 </androidx.constraintlayout.widget.ConstraintLayout>

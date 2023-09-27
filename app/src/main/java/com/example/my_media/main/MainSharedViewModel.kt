@@ -3,8 +3,6 @@ package com.example.my_media.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.my_media.home.HomeModel
-//import com.example.my_media.home.toMyVideoModel
 import com.example.my_media.mypage.MyVideoModel
 
 class MainSharedViewModel : ViewModel() {

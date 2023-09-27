@@ -35,8 +35,6 @@ class MyVideoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMyVideoBinding.inflate(inflater, container, false)
-
-
         return binding.root
     }
 
@@ -45,8 +43,6 @@ class MyVideoFragment : Fragment() {
         initView()
         setUpRecylclerView()
         initViewModel()
-
-
 
         binding.apply {
             gitgubArea.setOnClickListener {
@@ -62,7 +58,6 @@ class MyVideoFragment : Fragment() {
         with(viewModel) {
             likeList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
-
             }
         }
         with(sharedViewModel) {
@@ -102,9 +97,7 @@ class MyVideoFragment : Fragment() {
         binding.apply {
             favoriteRVArea.adapter = MyVideoAdapter()
             favoriteRVArea.layoutManager = GridLayoutManager(context, 2)
-
         }
-
     }
 
     override fun onDestroyView() {

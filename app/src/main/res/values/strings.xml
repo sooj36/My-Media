@@ -4,6 +4,14 @@
     <string name="menu_home">Home</string>
     <string name="menu_search">Search</string>
     <string name="menu_my_video">MyVideo</string>
+
+    <string name="home_chip_travel">여행</string>
+    <string name="home_chip_music">음악</string>
+    <string name="home_chip_game">게임</string>
+    <string name="home_chip_sleep">수면</string>
+    <string name="home_txt_popular_videos">인기 동영상</string>
+    <string name="home_txt_subscribe_videos">구독 리스트</string>
+
     <string name="user_name">12team Chnnel</string>
     <string name="description">This is 12team channel.Enjoy your time thank u!\n business문의 : sydneeey77@gmail.com</string>
     <string name="github">Github</string>
@@ -13,5 +21,6 @@
     <string name="subcribe">구독</string>
     <string name="shared">공유</string>
     <string name="description2">description.......</string>
-
+    <string name="search_txt_find_keyword">검색어를 입력해주세요.</string>
+    <string name="search_btn_search">검색</string>
 </resources>

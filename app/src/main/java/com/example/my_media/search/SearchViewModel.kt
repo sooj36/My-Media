@@ -1,28 +1,49 @@
 package com.example.my_media.search
 
-import android.content.Context
-import android.content.SharedPreferences
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.example.my_media.data.RetrofitClient
+import com.example.my_media.data.YoutubeRepositoryImpl
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
-class SearchViewModel (private val context: Context) {
+class SearchViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) : ViewModel() {
+    private val _list: MutableLiveData<List<SearchModel>> = MutableLiveData()
+    val list: LiveData<List<SearchModel>> get() = _list
 
-    private val sharedPreferences: SharedPreferences by lazy {
-        context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+    fun getSearchVideo(query: String) {
+        viewModelScope.launch {
+            try {
+                val response = youtubeRepositoryImpl.getSearchVideo().items
+                val searchItems = ArrayList<SearchModel>()
+                response.forEach {
+                    searchItems.add(
+                        SearchModel(
+                            it.searchSnippet.title,
+                            it.searchSnippet.searchThumbnails.high.url
+                        )
+                    )
+                }
+                val currentList = list.value.orEmpty().toMutableList()
+                currentList.addAll(searchItems)
+                _list.postValue(currentList)
+            } catch (e: HttpException) {
+                e.printStackTrace()
+            }
+        }
     }
-    companion object {
-        private const val SHARED_PREF_NAME = "VideoSearchQueries"
-        private const val KEY_SEARCH_QUERIES = "searchQueries"
+}
+
+class SearchViewModelFactory : ViewModelProvider.Factory {
+    private val repository = YoutubeRepositoryImpl(RetrofitClient.service)
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if(modelClass.isAssignableFrom(SearchViewModel::class.java)) {
+            return SearchViewModel(repository) as T
+        } else {
+            throw IllegalArgumentException("Not Found ViewModel Class")
+        }
     }
-
-//    fun getSearchQueries(): List<String> {
-//        val queriesJson = sharedPreferences.getString(KEY_SEARCH_QUERIES, null)
-//        return if (!queriesJson.isNullOrEmpty()) {
-//            Gson().fromJson(queriesJson, object : TypeToken<List<String>>() {}.type)
-//        } else {
-//            emptyList()
-//        }
-//    }
-
-
 }

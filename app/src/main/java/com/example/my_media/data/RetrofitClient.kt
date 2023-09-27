@@ -1,29 +1,20 @@
 package com.example.my_media.data
 
-import com.google.gson.GsonBuilder
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import com.example.my_media.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
+    private const val BASE_URL = BuildConfig.BASE_URL
 
-    val apiService : RetrofitInterface
-        get() = instance.create(RetrofitInterface::class.java)
+    private val retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 
-
-
-
-    private val instance: Retrofit
-        private get() {
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.level = HttpLoggingInterceptor.Level.BODY
-            val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-
-            return Retrofit.Builder()
-                .baseUrl("https://www.googleapis.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build()
-        }
+    val service: YoutubeRemoteDataSource by lazy {
+        retrofit.create(YoutubeRemoteDataSource::class.java)
+    }
 }

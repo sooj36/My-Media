@@ -39,5 +39,4 @@ class MyVideoAdapter() : ListAdapter<MyVideoModel,MyVideoAdapter.ViewHolder>(Tes
             }
         }
     }
-
 }
