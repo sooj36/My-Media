@@ -10,17 +10,23 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.my_media.R
+//import com.example.my_media.data.RemoteDataSource
+import com.example.my_media.data.RepositoryImpl
+import com.example.my_media.data.RetrofitClient
+import com.example.my_media.data.RetrofitInterface
 import com.example.my_media.databinding.FragmentHomeBinding
 
-class HomeFragment: Fragment() {
+class HomeFragment : Fragment() {
     companion object {
         fun newInstance() = HomeFragment()
     }
-    private lateinit var adapter : HomeListAdapter
+
+    private lateinit var adapter: HomeListAdapter
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: HomeViewModel by viewModels() { HomeViewModelFactory() }
+    private val viewModel: HomeViewModel by viewModels() { HomeViewModelFactory(RetrofitClient.retrofit.create(RetrofitInterface::class.java))
+    }
 
     private val homeListAdapter by lazy {
         HomeListAdapter(
@@ -29,7 +35,6 @@ class HomeFragment: Fragment() {
             }
         )
     }
-
 
 
     override fun onCreateView(
@@ -43,7 +48,6 @@ class HomeFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         initViewModel()
-
     }
 
     private fun initView() = with(binding) {
@@ -52,12 +56,13 @@ class HomeFragment: Fragment() {
             adapter = homeListAdapter
         }
         recyclerViewSubscribe.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
             adapter = homeListAdapter
         }
 
-        when(chipGroup.checkedChipId) {
+        when (chipGroup.checkedChipId) {
 //            R.id.chip_travel -> ...
             // Todo (키워드 클릭 관련 처리)
         }

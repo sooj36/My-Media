@@ -20,6 +20,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "API_KEY", properties["api_key"]
+        buildConfigField "String", "BASE_URL", properties["base_url"]
+
 
         /// base_url
     }
