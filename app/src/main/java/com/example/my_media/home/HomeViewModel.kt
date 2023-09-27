@@ -49,7 +49,9 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl): V
                     HomePopularModel(
                         txtTitle = it.popularSnippet.title,
                         txtDescription = it.popularSnippet.description,
-                        imgThumbnail = it.popularSnippet.popularThumbnails.standard.url
+                        imgThumbnail = it.popularSnippet.popularThumbnails.standard.url,
+                        isLiked = false
+
                     )
                 )
             }// 일부 값 추출

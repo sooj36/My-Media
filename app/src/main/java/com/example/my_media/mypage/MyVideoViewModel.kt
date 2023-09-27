@@ -37,7 +37,7 @@ class MyVideoViewModel: ViewModel() {
 class MyVideoViewModelFactory :ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MyVideoViewModel::class.java)){
-            return MyVideoViewModel() as T //파라미터 라이크한 데이터들 넣기전 임의로 넣은거
+            return MyVideoViewModel() as T
         }
        throw IllegalAccessException("not found ViewModel class.") //호환되지 않은 경우 알림
     }

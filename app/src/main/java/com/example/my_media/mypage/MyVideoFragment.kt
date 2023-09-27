@@ -27,7 +27,7 @@ class MyVideoFragment : Fragment() {
     private val viewModel: MyVideoViewModel by viewModels { MyVideoViewModelFactory() }
     private val sharedViewModel: MainSharedViewModel by activityViewModels()
     private val binding get() = _binding!!
-    private val adapter: MyVideoAdapter by lazy { binding.favoriteRVArea.adapter as MyVideoAdapter }
+    private val adapter: MyVideoAdapter by lazy { binding.favoriteRvArea.adapter as MyVideoAdapter }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,23 +61,22 @@ class MyVideoFragment : Fragment() {
             }
         }
         with(sharedViewModel) {
-            likeEvent.observe(viewLifecycleOwner) { event ->
-                when (event) {
-                    is MainSharedEventforLike.AddLikeItem -> {
-                        viewModel.addLikeItem(event.item)
-                    }
-
-                    is MainSharedEventforLike.RemoveLikeItem -> {
-                        viewModel.removeLikeItem(event.item)
+            likeEvent.observe(viewLifecycleOwner) { events ->
+                for (event in events) {
+                    when (event) {
+                        is MainSharedEventforLike.AddLikeItem -> {
+                            viewModel.addLikeItem(event.item)
+                        }
+                        is MainSharedEventforLike.RemoveLikeItem -> {
+                            viewModel.removeLikeItem(event.item)
+                        }
                     }
                 }
             }
         }
     }
 
-
     private fun initView() = with(binding) {
-
     }
 
     private fun openLinkGit() {
@@ -95,8 +94,8 @@ class MyVideoFragment : Fragment() {
 
     private fun setUpRecylclerView() {
         binding.apply {
-            favoriteRVArea.adapter = MyVideoAdapter()
-            favoriteRVArea.layoutManager = GridLayoutManager(context, 2)
+            favoriteRvArea.adapter = MyVideoAdapter()
+            favoriteRvArea.layoutManager = GridLayoutManager(context, 2)
         }
     }
 
