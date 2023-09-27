@@ -9,14 +9,14 @@ import retrofit2.http.Query
 interface RetrofitInterface {
 
     //확인 필요
-    @GET("/v3/videos")
+    @GET("v3/videos")
     suspend fun getPopularVideo(
         @Query("part") part : String = "snippet",
         @Query("chart") chart : String = "mostPopular",
         @Query("maxResults") maxResults : Int = 20,
         @Query("regionCode") regionCode : String = "KR",
 //        @Query("videoCategoryId") videoCategoryId : String,
-        @Query("Key") key: String
+        @Query("key") key: String
 
     ) : PopularVideosResponse
 }

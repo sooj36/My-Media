@@ -22,17 +22,17 @@ data class Snippet (
     @SerializedName("channelId") val channelId : String,
     @SerializedName("title") val title : String,
     @SerializedName("description") val description : String,
-    @SerializedName("thumbnails") val thumbnails :  String,
+    @SerializedName("thumbnails") val thumbnails : Thumbnails,
     @SerializedName("standard") val standard : String,
 )
 
 // 썸네일
-data class thumbnails (
-    @SerializedName("standard") val standard: String
+data class Thumbnails (
+    @SerializedName("standard") val standard: Standard
 )
 
 // 화질
-data class standard (
+data class Standard (
     @SerializedName("url") val url : String,
     @SerializedName("width") val width: Int,
     @SerializedName("height") val height : Int

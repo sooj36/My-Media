@@ -16,6 +16,7 @@ import com.example.my_media.data.RepositoryImpl
 import com.example.my_media.data.RetrofitClient
 import com.example.my_media.data.RetrofitInterface
 import com.example.my_media.databinding.FragmentHomeBinding
+import com.google.android.material.chip.Chip
 
 class HomeFragment : Fragment() {
     companion object {
@@ -26,7 +27,9 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: HomeViewModel by viewModels() { HomeViewModelFactory(RetrofitClient.retrofit.create(RetrofitInterface::class.java))
+    private val viewModel: HomeViewModel by viewModels() {
+        HomeViewModelFactory(RetrofitClient.retrofit.create(RetrofitInterface::class.java))
+
 
     }
 
@@ -51,6 +54,14 @@ class HomeFragment : Fragment() {
         initView()
         initViewModel()
         Log.d("sooj", "onViewCreate")
+
+        val chipTravel = view.findViewById<Chip>(R.id.chip_travel)
+        val chipMusic = view.findViewById<Chip>(R.id.chip_music)
+        val chipGame = view.findViewById<Chip>(R.id.chip_game)
+        val chipSleep = view.findViewById<Chip>(R.id.chip_sleep)
+
+
+        viewModel.getPopularVideo()
     }
 
     private fun initView() = with(binding) {
@@ -63,19 +74,32 @@ class HomeFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
             adapter = homeListAdapter
-            Log.d("sooj","initView")
+            Log.d("sooj", "initView")
         }
 
         when (chipGroup.checkedChipId) {
-//            R.id.chip_travel -> ...
-            // Todo (키워드 클릭 관련 처리)
+            R.id.chip_travel -> {
+
+            }
+
+            R.id.chip_music -> {
+
+            }
+
+            R.id.chip_game -> {
+
+            }
+
+            R.id.chip_sleep -> {
+
+            }
         }
     }
 
     private fun initViewModel() = with(viewModel) {
-        list.observe(viewLifecycleOwner) {
-//            homeListAdapter.submitList(it)
-            Log.d("sooj","initViewModel")
+        list.observe(viewLifecycleOwner) {list -> //람다 표현식
+            homeListAdapter.submitList(list) // it을 통해 값이 들어옴
+            Log.d("sooj", "initViewModel")
         }
     }
 

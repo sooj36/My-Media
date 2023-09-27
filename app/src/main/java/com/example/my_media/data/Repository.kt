@@ -10,6 +10,7 @@ interface Repository {
 class RepositoryImpl(private val service : RetrofitInterface) : Repository {
     override suspend fun getPopularVideo(): PopularVideosResponse
         = service.getPopularVideo(part = "snippet", chart = "mostPopular", regionCode = "KR", maxResults = 20, key = BuildConfig.API_KEY)
+
 }
 
 //class Repository {

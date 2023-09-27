@@ -1,18 +1,19 @@
 package com.example.my_media.home
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.my_media.R
 import com.example.my_media.data.PopularVideosResponse
 import com.example.my_media.databinding.ItemVideosBinding
+import java.lang.Error
 import java.util.ArrayList
 
-class HomeListAdapter(
-    val itemClickListener: (HomeModel) -> Unit
-) : ListAdapter<HomeModel, HomeListAdapter.ViewHolder>(
+class HomeListAdapter(val itemClickListener: (HomeModel) -> Unit) : ListAdapter<HomeModel, HomeListAdapter.ViewHolder>(
     object : DiffUtil.ItemCallback<HomeModel>() {
         override fun areItemsTheSame(oldItem: HomeModel, newItem: HomeModel): Boolean {
             return oldItem.txtTitle == newItem.txtTitle //추후 고유값으로 수정  (임시로 id를 txtTitle로 변경함)
@@ -28,7 +29,11 @@ class HomeListAdapter(
     inner class ViewHolder(private val binding: ItemVideosBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: HomeModel) = with(binding) {
-            imgThumbnail.load(item.imgThumbnail)
+            val s = item.imgThumbnail
+            Log.d("sooj", "test $s")
+            imgThumbnail.load(s) {
+                error(R.drawable.ic_launcher_background)
+            }
             txtTitle.text = item.txtTitle
             root.setOnClickListener {
                 itemClickListener(item)
