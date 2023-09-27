@@ -12,13 +12,11 @@ interface RetrofitInterface {
     @GET("/v3/videos")
     suspend fun getPopularVideo(
         @Query("part") part : String = "snippet",
-        @Query("chart") chart : String = "mostPopluar",
+        @Query("chart") chart : String = "mostPopular",
+        @Query("maxResults") maxResults : Int = 20,
         @Query("regionCode") regionCode : String = "KR",
 //        @Query("videoCategoryId") videoCategoryId : String,
         @Query("Key") key: String
 
     ) : PopularVideosResponse
-
-
-
 }

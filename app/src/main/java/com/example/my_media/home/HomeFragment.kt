@@ -1,6 +1,7 @@
 package com.example.my_media.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels() { HomeViewModelFactory(RetrofitClient.retrofit.create(RetrofitInterface::class.java))
+
     }
 
     private val homeListAdapter by lazy {
@@ -48,6 +50,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         initViewModel()
+        Log.d("sooj", "onViewCreate")
     }
 
     private fun initView() = with(binding) {
@@ -60,6 +63,7 @@ class HomeFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
             adapter = homeListAdapter
+            Log.d("sooj","initView")
         }
 
         when (chipGroup.checkedChipId) {
@@ -71,6 +75,7 @@ class HomeFragment : Fragment() {
     private fun initViewModel() = with(viewModel) {
         list.observe(viewLifecycleOwner) {
 //            homeListAdapter.submitList(it)
+            Log.d("sooj","initViewModel")
         }
     }
 
