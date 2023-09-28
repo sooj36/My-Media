@@ -1,6 +1,7 @@
 package com.example.my_media.search
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -23,12 +24,20 @@ class SearchListAdapter : ListAdapter<SearchModel, SearchListAdapter.ViewHolder>
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SearchModel) = with(binding) {
             searchImgItem.load(item.searchedVideo)
-//        Glide.with(context1)
-//            .load(searchedItem.searchedVideo)
-//            .into(holder.thumnailImage)
             searchTxtItem.text = item.searchedTitle
+
+            root.setOnClickListener {
+                itemClick?.onClick(adapterPosition)
+            }
         }
     }
+
+    interface ItemClick {
+        fun onClick(position: Int)
+    }
+
+    var itemClick: ItemClick? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = SearchRecyclerviewItemBinding.inflate(
@@ -41,5 +50,8 @@ class SearchListAdapter : ListAdapter<SearchModel, SearchListAdapter.ViewHolder>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            itemClick?.onClick(position)
+        }
     }
 }
