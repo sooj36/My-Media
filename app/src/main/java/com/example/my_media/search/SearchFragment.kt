@@ -23,7 +23,7 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var adapter: SearchListAdapter
     lateinit var searchRecyclerView: RecyclerView
-    lateinit var item : SearchModel
+    lateinit var item: SearchModel
 
     private val viewModel: SearchViewModel by viewModels {
         SearchViewModelFactory()
@@ -93,7 +93,11 @@ class SearchFragment : Fragment() {
         if (query.isNotEmpty()) {
             viewModel.getSearchVideo(query)
         } else {
-            Toast.makeText(requireContext(), getString(R.string.search_txt_find_keyword), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.search_txt_find_keyword),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
