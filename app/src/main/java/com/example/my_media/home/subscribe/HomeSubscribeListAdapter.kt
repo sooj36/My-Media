@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.my_media.R
 import com.example.my_media.databinding.ItemSubscribeBinding
 
 class HomeSubscribeListAdapter: ListAdapter<HomeSubscribeModel, HomeSubscribeListAdapter.ViewHolder>(
@@ -21,7 +22,9 @@ class HomeSubscribeListAdapter: ListAdapter<HomeSubscribeModel, HomeSubscribeLis
 ) {
     inner class ViewHolder(private val binding: ItemSubscribeBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: HomeSubscribeModel) = with(binding) {
-            imgThumbnail.load(item.imgThumbnail)
+            imgThumbnail.load(item.imgThumbnail) {
+                error(R.drawable.ic_no_image)
+            }
             txtName.text = item.txtName
         }
     }

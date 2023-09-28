@@ -33,9 +33,8 @@ class HomePopularListAdapter(
             }
         }
         fun bind(item: HomePopularModel) = with(binding) {
-            val s = item.imgThumbnail
-            imgThumbnail.load(s) {
-                error(R.drawable.ic_launcher_background)
+            imgThumbnail.load(item.imgThumbnail) {
+                error(R.drawable.ic_no_image)
             }
             txtTitle.text = item.txtTitle
             root.setOnClickListener {
