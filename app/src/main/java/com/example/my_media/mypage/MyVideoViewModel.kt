@@ -5,40 +5,45 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import java.text.FieldPosition
 
 //화면 전환 시에도 ui가 데이터 안가져와도 됨
 
-class MyVideoViewModel: ViewModel() {
-    companion object {
-        private val currentList: MutableList<MyVideoModel> = mutableListOf()//마이모델의 전체인스턴스공유되는 리스트 한개로통일
-    }
-
-    private val _likeList: MutableLiveData<MutableList<MyVideoModel>> = MutableLiveData(currentList)
-    val likeList: LiveData<MutableList<MyVideoModel>> get() = _likeList
+class MyVideoViewModel : ViewModel() {
+    private val _likeList: MutableLiveData<List<MyVideoModel>> = MutableLiveData(mutableListOf())
+    val likeList: LiveData<List<MyVideoModel>> get() = _likeList
 
     fun addLikeItem(item: MyVideoModel) {
-        if (!currentList.contains(item)) {
-            currentList.add(0, item)
-            _likeList.value = currentList
-            Log.d("jun", "추가 $currentList")
+        val items = _likeList.value?.toMutableList() ?: mutableListOf()
+        val existingItemIndex = items.indexOfFirst { it.title == item.title }
+        if (existingItemIndex != -1) {
+            // 아이템이 이미 존재하면 해당 아이템을 업데이트하거나 대체
+            items[existingItemIndex] = item
+        } else {
+            // 아이템이 존재하지 않으면 리스트에 추가
+            items.add(0, item)
         }
+        _likeList.value = ArrayList(items)
+        Log.d("jun","추가된 아이템$items")
     }
 
-    fun removeLikeItem(item: MyVideoModel){
-        if (currentList.contains(item)) {
-            currentList.remove(item)
-            _likeList.value = currentList
-            Log.d("jun", "제거 $currentList")
+
+    fun removeLikeItem(item: MyVideoModel) {
+        val items = _likeList.value?.toMutableList() ?: mutableListOf()
+        val itemToRemove = items.find { it.title == item.title }
+        itemToRemove?.let {
+            items.remove(it)
+            _likeList.value = ArrayList(items) //ㅅ제거후 새로운 리스트를 만들어 할당
+            Log.d("jun","제거된 아이템$items")
         }
     }
 }
 
-
-class MyVideoViewModelFactory :ViewModelProvider.Factory{
+class MyVideoViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MyVideoViewModel::class.java)){
+        if (modelClass.isAssignableFrom(MyVideoViewModel::class.java)) {
             return MyVideoViewModel() as T
         }
-       throw IllegalAccessException("not found ViewModel class.") //호환되지 않은 경우 알림
+        throw IllegalAccessException("not found ViewModel class.") //호환되지 않은 경우 알림
     }
 }
