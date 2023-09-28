@@ -10,7 +10,7 @@ interface YoutubeRemoteDataSource {
     suspend fun getSubscribe(
         @Header("Authorization") token: String,
         @Query("part") part: String = "snippet",
-        @Query("maxResults") maxResults: Int = 10,
+        @Query("maxResults") maxResults: Int = 50,
         @Query("mine") subscribe: Boolean = true,
         @Query("order") order: String = "unread"
     ) : SubscribeResponse

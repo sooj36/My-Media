@@ -23,7 +23,6 @@ android {
 
         buildConfigField "String", "BASE_URL", properties["base_url"]
         buildConfigField "String", "API_KEY", properties["api_key"]
-        buildConfigField "String", "GOOGLE_CLIENT_ID", properties["google_client_id"]
     }
 
     buildTypes {
@@ -78,8 +77,12 @@ dependencies {
 
     //OAuth 2.0 X Youtube Data API v3
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
-    implementation 'com.google.apis:google-api-services-youtube:v3-rev183-1.22.0'
-    implementation 'com.google.api-client:google-api-client:1.33.0'
+    implementation('com.google.api-client:google-api-client-android:2.2.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation('com.google.apis:google-api-services-youtube:v3-rev222-1.25.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
