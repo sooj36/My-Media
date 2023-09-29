@@ -1,5 +1,6 @@
 package com.example.my_media.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -44,22 +45,17 @@ class VideoDetailFragment : Fragment() {
         val item: HomePopularModel? = arguments?.getParcelable("item")
         item?.let {
             initViewModel(it)
+            initView(it)
+            shareUrl(it.imgThumbnail)
         }
     }
-
     private fun initViewModel(item: HomePopularModel) {
         item.isLiked = sharedViewModel.getLikeStatus(item.txtTitle)
-
-        binding.apply {
-            titleArea.text = item.txtTitle
-            binding.desArea.text = item.txtDescription
-            binding.thumnailArea.load(item.imgThumbnail) {
-                error(R.drawable.test)
-            }
-        }
         updateLikeButtonUI(item.isLiked)
+    }
 
-        binding.likeBtn.setOnClickListener {
+    private fun initView(item: HomePopularModel) = with(binding) {
+        likeBtn.setOnClickListener {
             val isLiked = sharedViewModel.getLikeStatus(item.txtTitle)
             val newItem = item.copy(isLiked = !isLiked)
             sharedViewModel.toggleLikeItem(newItem)
@@ -69,14 +65,27 @@ class VideoDetailFragment : Fragment() {
                 context?.showToast("좋아요 리스트에 추가 되었습니다", Toast.LENGTH_LONG)
             updateLikeButtonUI(newItem.isLiked)
         }
+        titleArea.text = item.txtTitle
+        desArea.text = item.txtDescription
+        thumnailArea.load(item.imgThumbnail) {
+            error(R.drawable.test)
+        }
     }
-
-    private fun updateLikeButtonUI(isLiked: Boolean) {
-        binding.likeBtn.setImageResource(
+    private fun updateLikeButtonUI(isLiked: Boolean) = with(binding) {
+        likeBtn.setImageResource(
             if (isLiked) R.drawable.ic_like else R.drawable.ic_mtlike
         )
     }
-
+    private fun shareUrl(url: String) {
+        binding.sharedBtn.setOnClickListener {
+            val intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, url)
+                type = "text/plain"
+            }
+            startActivity(Intent.createChooser(intent, "이미지 URL 공유"))
+        }
+    }
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
