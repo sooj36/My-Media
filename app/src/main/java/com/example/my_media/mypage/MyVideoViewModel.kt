@@ -25,7 +25,6 @@ class MyVideoViewModel : ViewModel() {
         _likeList.value = ArrayList(items)
     }
 
-
     fun removeLikeItem(item: MyVideoModel) {
         val items = _likeList.value?.toMutableList() ?: mutableListOf()
         val findRemoveItem = items.find { it.title == item.title }

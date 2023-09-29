@@ -20,9 +20,10 @@ import kotlin.math.log
 
 class VideoDetailFragment : Fragment() {
     companion object {
+        private const val ITEM = "item"
         fun newInstance(item: HomePopularModel) = VideoDetailFragment().apply {
             arguments = Bundle().apply {
-                putParcelable("item", item)
+                putParcelable(ITEM, item)
             }
         }
     }
@@ -42,7 +43,7 @@ class VideoDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val item: HomePopularModel? = arguments?.getParcelable("item")
+        val item: HomePopularModel? = arguments?.getParcelable(ITEM)
         item?.let {
             initViewModel(it)
             initView(it)
@@ -60,9 +61,9 @@ class VideoDetailFragment : Fragment() {
             val newItem = item.copy(isLiked = !isLiked)
             sharedViewModel.toggleLikeItem(newItem)
             if (isLiked) {
-                context?.showToast("좋아요 리스트에서 제거 되었습니다", Toast.LENGTH_LONG)
+                context?.showToast(context!!.getString(R.string.toast_txt_unlike), Toast.LENGTH_LONG)
             } else
-                context?.showToast("좋아요 리스트에 추가 되었습니다", Toast.LENGTH_LONG)
+                context?.showToast(context!!.getString(R.string.toast_txt_like), Toast.LENGTH_LONG)
             updateLikeButtonUI(newItem.isLiked)
         }
         titleArea.text = item.txtTitle
