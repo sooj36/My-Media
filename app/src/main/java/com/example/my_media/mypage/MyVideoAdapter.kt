@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.my_media.databinding.FavoriteItemBinding
 import coil.load
 import com.example.my_media.R
+import com.example.my_media.home.popular.HomePopularModel
 
-class MyVideoAdapter() : ListAdapter<MyVideoModel,MyVideoAdapter.ViewHolder>(TestItemDiffCallback()){
+class MyVideoAdapter(val itemClickListener: (MyVideoModel) -> Unit) : ListAdapter<MyVideoModel,MyVideoAdapter.ViewHolder>(TestItemDiffCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyVideoAdapter.ViewHolder {
         val binding = FavoriteItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -29,6 +30,13 @@ class MyVideoAdapter() : ListAdapter<MyVideoModel,MyVideoAdapter.ViewHolder>(Tes
         }
     }
     inner class ViewHolder(private val binding: FavoriteItemBinding) :RecyclerView.ViewHolder(binding.root){
+        init {
+            binding.root.setOnClickListener {
+                val position = adapterPosition.takeIf { it != RecyclerView.NO_POSITION }
+                    ?: return@setOnClickListener
+                itemClickListener(getItem(position))
+            }
+        }
         fun bindItems(item:MyVideoModel){
             binding.apply {
                 item?.photo?.let {
