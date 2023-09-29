@@ -15,23 +15,21 @@ class MyVideoViewModel : ViewModel() {
 
     fun addLikeItem(item: MyVideoModel) {
         val items = _likeList.value?.toMutableList() ?: mutableListOf()
-        val existingItemIndex = items.indexOfFirst { it.title == item.title }
-        if (existingItemIndex != -1) {
-            // 아이템이 이미 존재하면 해당 아이템을 업데이트하거나 대체
-            items[existingItemIndex] = item
-        } else {
-            // 아이템이 존재하지 않으면 리스트에 추가
-            items.add(0, item)
+        val findItem = items.find { it.title == item.title }
+        if (findItem == null){
+            items.add(0,item)
+        }else{
+            val i = items.indexOf(findItem)
+            items[i] = item
         }
         _likeList.value = ArrayList(items)
-        Log.d("jun","추가된 아이템$items")
     }
 
 
     fun removeLikeItem(item: MyVideoModel) {
         val items = _likeList.value?.toMutableList() ?: mutableListOf()
-        val itemToRemove = items.find { it.title == item.title }
-        itemToRemove?.let {
+        val findRemoveItem = items.find { it.title == item.title }
+        findRemoveItem?.let {
             items.remove(it)
             _likeList.value = ArrayList(items) //ㅅ제거후 새로운 리스트를 만들어 할당
             Log.d("jun","제거된 아이템$items")

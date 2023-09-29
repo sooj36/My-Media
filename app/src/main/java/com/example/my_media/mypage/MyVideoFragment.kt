@@ -43,15 +43,6 @@ class MyVideoFragment : Fragment() {
         initView()
         setUpRecylclerView()
         initViewModel()
-
-        binding.apply {
-            gitgubArea.setOnClickListener {
-                openLinkGit()
-                notionArea.setOnClickListener {
-                    openLinkNotion()
-                }
-            }
-        }
     }
 
     private fun initViewModel() {
@@ -78,6 +69,12 @@ class MyVideoFragment : Fragment() {
     }
 
     private fun initView() = with(binding) {
+        gitgubArea.setOnClickListener {
+            openLinkGit()
+            notionArea.setOnClickListener {
+                openLinkNotion()
+            }
+        }
     }
 
     private fun openLinkGit() {
@@ -97,7 +94,6 @@ class MyVideoFragment : Fragment() {
         binding.apply {
             favoriteRvArea.adapter = MyVideoAdapter { item ->
                 val fragment = VideoDetailFragment.newInstance(item.toHomePopularModel())
-
                 requireActivity().supportFragmentManager.beginTransaction()
                     .replace(R.id.frameLayout, fragment)
                     .addToBackStack(null)
