@@ -28,7 +28,7 @@ interface YoutubeRemoteDataSource {
     @GET("youtube/v3/search")
     suspend fun getSearchVideo(
         @Query("part") part: String,
-        @Query("chart") chart: String?,
+        @Query("q") query: String,
         @Query("maxResults") maxResults: Int?,
         @Query("regionCode") regionCode: String?,
         @Query("key") apiKey: String

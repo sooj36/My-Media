@@ -5,7 +5,7 @@ import com.example.my_media.BuildConfig
 interface YoutubeRepository {
     suspend fun getSubscribe(accessToken: String): SubscribeResponse
     suspend fun getPopularVideo(): PopularVideosResponse
-    suspend fun getSearchVideo(): SearchVideoResponse
+    suspend fun getSearchVideo(query: String): SearchVideoResponse
 }
 
 class YoutubeRepositoryImpl(
@@ -25,10 +25,10 @@ class YoutubeRepositoryImpl(
         )
     }
 
-    override suspend fun getSearchVideo(): SearchVideoResponse {
+    override suspend fun getSearchVideo(query: String): SearchVideoResponse {
         return remote.getSearchVideo(
             part = "snippet",
-            chart = "mostPopular",
+            query = query,
             maxResults = 10,
             regionCode = "KR",
             apiKey = BuildConfig.API_KEY

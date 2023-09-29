@@ -17,7 +17,7 @@ class SearchViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) 
     fun getSearchVideo(query: String) {
         viewModelScope.launch {
             try {
-                val response = youtubeRepositoryImpl.getSearchVideo().items
+                val response = youtubeRepositoryImpl.getSearchVideo(query =  query).items
                 val searchItems = ArrayList<SearchModel>()
                 response.forEach {
                     searchItems.add(
