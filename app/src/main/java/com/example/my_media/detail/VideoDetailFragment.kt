@@ -2,7 +2,6 @@ package com.example.my_media.detail
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +13,7 @@ import com.example.my_media.R
 import com.example.my_media.databinding.FragmentVideoDetailBinding
 import com.example.my_media.home.popular.HomePopularModel
 import com.example.my_media.main.MainSharedViewModel
-import com.example.my_media.mypage.MyVideoViewModel
 import com.example.my_media.util.showToast
-import kotlin.math.log
 
 class VideoDetailFragment : Fragment() {
     companion object {
@@ -73,9 +70,15 @@ class VideoDetailFragment : Fragment() {
         }
     }
     private fun updateLikeButtonUI(isLiked: Boolean) = with(binding) {
-        likeBtn.setImageResource(
-            if (isLiked) R.drawable.ic_like else R.drawable.ic_mtlike
-        )
+        if (isLiked){
+            likeBtn.setAnimation(R.raw.like)
+            likeBtn.playAnimation()
+        }else{
+            likeBtn.setAnimation(R.raw.like)
+            likeBtn.setMinAndMaxFrame(11,14)
+            likeBtn.playAnimation()
+        }
+
     }
     private fun shareUrl(url: String) {
         binding.sharedBtn.setOnClickListener {
