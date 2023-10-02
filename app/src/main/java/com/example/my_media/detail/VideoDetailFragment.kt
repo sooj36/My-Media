@@ -99,7 +99,7 @@ class VideoDetailFragment : Fragment() {
         }
         titleArea.text = item.txtTitle
         desArea.text = item.txtDescription
-        thumnailArea.load(item.imgThumbnail) {
+        thumbnailArea.load(item.imgThumbnail) {
             error(R.drawable.test)
         }
     }
@@ -107,7 +107,7 @@ class VideoDetailFragment : Fragment() {
     private fun updateLikeButtonUI(isLiked: Boolean) = with(binding) {
         if (isLiked) {
             likeBtn.apply{setAnimation(R.raw.like)
-            playAnimation()
+                playAnimation()
             }
         } else {
             likeBtn.apply {

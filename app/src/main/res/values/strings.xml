@@ -5,25 +5,27 @@
     <string name="menu_search">Search</string>
     <string name="menu_my_video">MyVideo</string>
 
-    <string name="home_chip_travel">여행</string>
+    <string name="main_toast_success_login">구글 계정에 로그인 되었습니다.</string>
+
+    <string name="home_chip_all">전체</string>
+    <string name="home_chip_animal">동물</string>
     <string name="home_chip_music">음악</string>
     <string name="home_chip_game">게임</string>
-    <string name="home_chip_sleep">수면</string>
+    <string name="home_chip_comedy">유머</string>
     <string name="home_txt_popular_videos">인기 동영상</string>
     <string name="home_txt_subscribe_videos">구독 리스트</string>
 
-    <string name="toast_txt_like">좋아요 리스트에 추가 되었습니다</string>
-    <string name="toast_txt_unlike">좋아요 리스트에서 제거 되었습니다</string>
+    <string name="detail_btn_like">좋아요</string>
+    <string name="detail_btn_share">공유</string>
+    <string name="detail_toast_like">좋아요 리스트에 추가 되었습니다</string>
+    <string name="detail_toast_unlike">좋아요 리스트에서 제거 되었습니다</string>
 
-    <string name="user_name">12team Chnnel</string>
-    <string name="description">This is 12team channel.Enjoy your time thank u!\n business문의 : sydneeey77@gmail.com</string>
-    <string name="github">Github</string>
-    <string name="notion">Notion</string>
-    <string name="my_favorite_Videos">좋아요 표시한 동영상들</string>
-    <string name="title">title</string>
-    <string name="subcribe">구독</string>
-    <string name="shared">공유</string>
-    <string name="description2">description.......</string>
+    <string name="my_video_txt_github">Github</string>
+    <string name="my_video_txt_notion">Notion</string>
+    <string name="my_video_txt_user_name">12 team Channel</string>
+    <string name="my_video_txt_description">This is 12 team channel. Enjoy your time, thank u!\nbusiness 문의 : sydneeey77@gmail.com</string>
+    <string name="my_video_txt_favorite_Videos">좋아요 표시한 동영상 목록</string>
+
     <string name="search_txt_find_keyword">검색어를 입력해주세요.</string>
     <string name="search_btn_search">검색</string>
 </resources>

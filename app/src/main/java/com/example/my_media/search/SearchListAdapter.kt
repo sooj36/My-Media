@@ -1,14 +1,12 @@
 package com.example.my_media.search
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.my_media.databinding.SearchRecyclerviewItemBinding
-import com.example.my_media.mypage.MyVideoModel
+import com.example.my_media.databinding.ItemSearchBinding
 
 class SearchListAdapter(val itemClickListener: (SearchModel) -> Unit) : ListAdapter<SearchModel, SearchListAdapter.ViewHolder>(
     object : DiffUtil.ItemCallback<SearchModel>() {
@@ -21,7 +19,7 @@ class SearchListAdapter(val itemClickListener: (SearchModel) -> Unit) : ListAdap
         }
     }
 ) {
-    inner class ViewHolder(private val binding: SearchRecyclerviewItemBinding) :
+    inner class ViewHolder(private val binding: ItemSearchBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
@@ -37,7 +35,7 @@ class SearchListAdapter(val itemClickListener: (SearchModel) -> Unit) : ListAdap
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = SearchRecyclerviewItemBinding.inflate(
+        val binding = ItemSearchBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
