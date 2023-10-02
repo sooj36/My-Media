@@ -13,7 +13,7 @@ data class PopularVideosList (
     @SerializedName("snippet") val popularSnippet : PopularSnippet?,
     @SerializedName("channelTitle") val channelTitle : String?,
     @SerializedName("detaultLanguage") val defaultLanguage : String?,
-    @SerializedName("categoryId") val categoryId :  Int?,
+    @SerializedName("categoryId") val categoryId :  String?,
 )
 
 data class PopularSnippet (

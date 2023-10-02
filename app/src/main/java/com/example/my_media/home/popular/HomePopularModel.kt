@@ -9,7 +9,8 @@ data class HomePopularModel(
     val imgThumbnail: String,
     val txtTitle: String,
     val txtDescription : String,
-    var isLiked : Boolean
+    var isLiked : Boolean,
+    var videoCategoryId : String
 ): Parcelable
 fun HomePopularModel.toMyVideoModel():MyVideoModel{
     return MyVideoModel(

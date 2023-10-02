@@ -4,7 +4,7 @@ import com.example.my_media.BuildConfig
 
 interface YoutubeRepository {
     suspend fun getSubscribe(accessToken: String): SubscribeResponse
-    suspend fun getPopularVideo(): PopularVideosResponse
+    suspend fun getPopularVideo(accessToken: String, videoCategoryId: String): PopularVideosResponse
     suspend fun getSearchVideo(query: String): SearchVideoResponse
 }
 
@@ -15,13 +15,10 @@ class YoutubeRepositoryImpl(
         return remote.getSubscribe(token = accessToken)
     }
 
-    override suspend fun getPopularVideo(): PopularVideosResponse {
+    override suspend fun getPopularVideo(accessToken: String, videoCategoryId: String): PopularVideosResponse {
         return remote.getPopularVideo(
-            part = "snippet",
-            chart = "mostPopular",
-            regionCode = "KR",
-            maxResults = 20,
-            key = BuildConfig.API_KEY
+            token = accessToken,
+            videoCategoryId = videoCategoryId
         )
     }
 

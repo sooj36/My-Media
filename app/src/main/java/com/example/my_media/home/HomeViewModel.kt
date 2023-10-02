@@ -42,18 +42,18 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) : 
         }
     }
 
-    fun getPopularVideo() { //카테고리 아이디를 파라미터로 받기
+    fun getPopularVideo(accessToken: String, videoCategoryId : String) { //카테고리 아이디를 파라미터로 받기
         viewModelScope.launch {
-            val response = youtubeRepositoryImpl.getPopularVideo().items // 모든 데이터
+            val response = youtubeRepositoryImpl.getPopularVideo(accessToken, videoCategoryId).items // 모든 데이터
             val popularVideoItems = ArrayList<HomePopularModel>()
             response.forEach {
                 popularVideoItems.add(
                     HomePopularModel(
-                        txtTitle = it.popularSnippet.title,
-                        txtDescription = it.popularSnippet.description,
-                        imgThumbnail = it.popularSnippet.popularThumbnails.standard.url,
-                        isLiked = false
-
+                        txtTitle = it.popularSnippet?.title ?: "",
+                        txtDescription = it.popularSnippet?.description ?: "",
+                        imgThumbnail = it.popularSnippet?.popularThumbnails?.standard?.url ?: "",
+                        isLiked = false,
+                        videoCategoryId = it.categoryId ?: ""
                     )
                 )
             }// 일부 값 추출
