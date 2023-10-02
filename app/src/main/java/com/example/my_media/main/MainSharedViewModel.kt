@@ -3,28 +3,39 @@ package com.example.my_media.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.my_media.home.popular.HomePopularModel
+import com.example.my_media.home.popular.toMyVideoModel
 import com.example.my_media.mypage.MyVideoModel
 
 class MainSharedViewModel : ViewModel() {
-    private val _likeEvent: MutableLiveData<MainSharedEventforLike> = MutableLiveData()
-    val likeEvent: LiveData<MainSharedEventforLike> get() = _likeEvent
+    private val _likeEvent : MutableLiveData<MutableList<MainSharedEventforLike>> = MutableLiveData() //단일객체에서 변경
+    val likeEvent: LiveData<MutableList<MainSharedEventforLike>> get() = _likeEvent
+    private val likeStatusMap: MutableMap<String, Boolean> = mutableMapOf()
 
-//    fun toggleLikeItem(item: HomeModel?) {
-//        if (item == null) {
-//            return
-//        }
-//        _likeEvent.value =  // 아이템의 현재 좋아요 상태에 따라서 이벤트 생성 하고_likeEvent에 할당
-//            if (item.isLiked) {
-//                MainSharedEventforLike.AddLikeItem(item.toMyVideoModel()) //true인경우 애드이벤트생성 ,마이비디오 모델로변환
-//            } else
-//                MainSharedEventforLike.RemoveLikeItem(item.toMyVideoModel())
-//    }
+    fun toggleLikeItem(item: HomePopularModel) {
+        val currentStatus = likeStatusMap[item.txtTitle] ?: false
+        val newStatus = !currentStatus
+        likeStatusMap[item.txtTitle] = newStatus
 
+        val event = if (newStatus) {
+            MainSharedEventforLike.AddLikeItem(item.toMyVideoModel())
+        } else {
+            MainSharedEventforLike.RemoveLikeItem(item.toMyVideoModel())
+        }
+
+        val currentEvents = _likeEvent.value ?: mutableListOf()
+        currentEvents.add(event)
+
+        _likeEvent.value = currentEvents
+    }
+
+    fun getLikeStatus(videoId: String): Boolean {
+        return likeStatusMap[videoId] ?: false
+    }
 }
 
-//좋아요 이벤트를 관리하는  MainSharedEventforLike 인ㄴ터페이스정의!
-sealed interface MainSharedEventforLike {
-    data class AddLikeItem(val item: MyVideoModel) : MainSharedEventforLike //아이템정보포함 아이템추가하는이벤트
 
+sealed interface MainSharedEventforLike {
+    data class AddLikeItem(val item: MyVideoModel) : MainSharedEventforLike
     data class RemoveLikeItem(val item: MyVideoModel) : MainSharedEventforLike
 }

@@ -1,5 +1,6 @@
 package com.example.my_media.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,10 +10,9 @@ import com.example.my_media.data.RetrofitClient
 import com.example.my_media.data.YoutubeRepositoryImpl
 import com.example.my_media.home.subscribe.HomeSubscribeModel
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import com.example.my_media.home.popular.HomePopularModel
 
-class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl): ViewModel() {
+class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) : ViewModel() {
     private val _subscribeList: MutableLiveData<List<HomeSubscribeModel>> = MutableLiveData()
     val subscribeList: LiveData<List<HomeSubscribeModel>> get() = _subscribeList
 
@@ -21,25 +21,27 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl): V
 
     fun getSubscribeList(accessToken: String) {
         viewModelScope.launch {
-            try {
-                val responseSubscribeData = youtubeRepositoryImpl.getSubscribe(accessToken).items
+            runCatching {
+                val response = youtubeRepositoryImpl.getSubscribe(accessToken).items
                 val subscribeItems = ArrayList<HomeSubscribeModel>()
-                responseSubscribeData.forEach {
+
+                response?.forEach {
                     subscribeItems.add(
                         HomeSubscribeModel(
-                            it.subscribeSnippet.subscribeThumbnails.medium.url,
-                            it.subscribeSnippet.title
+                            it.subscribeSnippet?.subscribeThumbnails?.default?.url ?: "",
+                            it.subscribeSnippet?.title ?: ""
                         )
                     )
                 }
                 val currentList = subscribeList.value.orEmpty().toMutableList()
                 currentList.addAll(subscribeItems)
                 _subscribeList.postValue(currentList)
-            } catch (e: HttpException) {
-                e.printStackTrace()
+            }.onFailure {
+                Log.e("Network Failed", it.message.toString())
             }
         }
     }
+
     fun getPopularVideo() { //카테고리 아이디를 파라미터로 받기
         viewModelScope.launch {
             val response = youtubeRepositoryImpl.getPopularVideo().items // 모든 데이터
@@ -49,7 +51,9 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl): V
                     HomePopularModel(
                         txtTitle = it.popularSnippet.title,
                         txtDescription = it.popularSnippet.description,
-                        imgThumbnail = it.popularSnippet.popularThumbnails.standard.url
+                        imgThumbnail = it.popularSnippet.popularThumbnails.standard.url,
+                        isLiked = false
+
                     )
                 )
             }// 일부 값 추출
@@ -61,7 +65,7 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl): V
 class HomeViewModelFactory : ViewModelProvider.Factory {
     private val repository = YoutubeRepositoryImpl(RetrofitClient.service)
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             return HomeViewModel(repository) as T
         } else {
             throw IllegalArgumentException("Not Found ViewModel Class")

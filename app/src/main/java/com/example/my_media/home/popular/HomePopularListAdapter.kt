@@ -24,10 +24,17 @@ class HomePopularListAdapter(
 ) {
     inner class ViewHolder(private val binding: ItemVideosBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        //클릭된 아이템 뷰홀더 위치를 사용하여 get(position)으로 클릭된아이템가져오기
+        init {
+            binding.root.setOnClickListener {
+                val position = adapterPosition.takeIf { it != RecyclerView.NO_POSITION }
+                    ?: return@setOnClickListener
+                itemClickListener(getItem(position))
+            }
+        }
         fun bind(item: HomePopularModel) = with(binding) {
-            val s = item.imgThumbnail
-            imgThumbnail.load(s) {
-                error(R.drawable.ic_launcher_background)
+            imgThumbnail.load(item.imgThumbnail) {
+                error(R.drawable.ic_no_image)
             }
             txtTitle.text = item.txtTitle
             root.setOnClickListener {

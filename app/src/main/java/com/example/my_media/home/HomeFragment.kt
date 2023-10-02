@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.my_media.R
 import com.example.my_media.databinding.FragmentHomeBinding
+import com.example.my_media.detail.VideoDetailFragment
 import com.example.my_media.home.popular.HomePopularListAdapter
 import com.example.my_media.home.subscribe.HomeSubscribeListAdapter
 
@@ -24,8 +26,8 @@ class HomeFragment : Fragment() {
     }
 
     private var _binding: FragmentHomeBinding? = null
+        private val binding get() = _binding!!
 
-    private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels() {
         HomeViewModelFactory()
@@ -37,8 +39,13 @@ class HomeFragment : Fragment() {
 
     private val homePopularListAdapter by lazy {
         HomePopularListAdapter(
-            itemClickListener = { item ->
-                //Todo (VideoDetailFragment 로 데이터 전달)
+            itemClickListener = { item -> //파풀퍼모델객체
+               val fragment = VideoDetailFragment.newInstance(item)
+
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.frameLayout,fragment)
+                    .addToBackStack(null)
+                    .commit()
             }
         )
     }
