@@ -5,10 +5,11 @@
     <string name="menu_search">Search</string>
     <string name="menu_my_video">MyVideo</string>
 
-    <string name="home_chip_travel">여행</string>
+    <string name="home_chip_all">전체</string>
+    <string name="home_chip_animal">동물</string>
     <string name="home_chip_music">음악</string>
     <string name="home_chip_game">게임</string>
-    <string name="home_chip_sleep">수면</string>
+    <string name="home_chip_comedy">유머</string>
     <string name="home_txt_popular_videos">인기 동영상</string>
     <string name="home_txt_subscribe_videos">구독 리스트</string>
 
