@@ -1,6 +1,7 @@
 package com.example.my_media.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,25 +80,43 @@ class HomeFragment : Fragment() {
         viewModel.getSubscribeList("Bearer $accessToken") //구독 리스트 불러오기
 
         viewModel.getPopularVideo(
-            "Bearer $accessToken", "1")
+            "Bearer $accessToken", "0"
+        )
+
+        var videoCategoryId = ""
+        chipGroup.setOnCheckedChangeListener { group, checkedId ->
 
             when (chipGroup.checkedChipId) {
-                R.id.chip_travel -> {
-
-                }
-
-                R.id.chip_game -> {
-
+                R.id.chip_animal -> {
+                    videoCategoryId = "15"
+                    Log.d("sooj", "Pets & Animals")
                 }
 
                 R.id.chip_music -> {
-
+                    videoCategoryId = "10"
+                    Log.d("sooj", "Music")
                 }
 
-                R.id.chip_sleep -> {
+                R.id.chip_game -> {
+                    videoCategoryId = "20"
+                    Log.d("sooj", "Gaming")
+                }
 
+                R.id.chip_comedy -> {
+                    videoCategoryId = "23"
+                    Log.d("sooj", "Comedy")
+                }
+
+                else -> {
+                    Unit // 아무 행동도x
                 }
             }
+            viewModel.getPopularVideo("Bearer $accessToken", videoCategoryId)
+            Log.d(
+                "sooj",
+                "chip 초기화면 ${viewModel.getPopularVideo("Bearer $accessToken", videoCategoryId)}"
+            )
+        }
     }
 
     private fun initViewModel() = with(viewModel) {
