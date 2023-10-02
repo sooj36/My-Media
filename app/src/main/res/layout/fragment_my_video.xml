@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/back_img_area"
@@ -25,7 +26,7 @@
             app:cardCornerRadius="100dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/back_img_area">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/profile_img_Area"
@@ -37,86 +38,110 @@
 
         <TextView
             android:id="@+id/user_name_area"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
             android:text="@string/user_name"
             android:textSize="25sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/card_view" />
 
         <TextView
             android:id="@+id/description"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:paddingHorizontal="16dp"
             android:text="@string/description"
-            android:textSize="12sp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/github_area"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_name_area" />
 
-        <TextView
-            android:id="@+id/gitgub_area"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/github"
-            android:textSize="12sp"
-            android:layout_marginRight="50dp"
-            app:layout_constraintEnd_toEndOf="@+id/user_name_area"
-            app:layout_constraintStart_toStartOf="@+id/user_name_area"
-            app:layout_constraintTop_toBottomOf="@+id/description" />
-
         <ImageView
             android:id="@+id/git_img"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginLeft="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/github"
-            app:layout_constraintEnd_toStartOf="@+id/gitgub_area"
-            app:layout_constraintStart_toStartOf="@+id/user_name_area"
-            app:layout_constraintTop_toBottomOf="@+id/description" />
+            app:layout_constraintBottom_toTopOf="@id/view_line"
+            app:layout_constraintEnd_toStartOf="@id/github_area"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description" />
+
+        <TextView
+            android:id="@+id/github_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/github"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/git_img"
+            app:layout_constraintEnd_toStartOf="@id/notion_img"
+            app:layout_constraintStart_toEndOf="@id/git_img"
+            app:layout_constraintTop_toTopOf="@id/git_img" />
+
+        <ImageView
+            android:id="@+id/notion_img"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="30dp"
+            android:background="@drawable/notion"
+            app:layout_constraintBottom_toBottomOf="@id/git_img"
+            app:layout_constraintEnd_toStartOf="@id/notion_area"
+            app:layout_constraintStart_toEndOf="@id/github_area"
+            app:layout_constraintTop_toTopOf="@id/git_img" />
 
         <TextView
             android:id="@+id/notion_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="5dp"
+            android:layout_marginStart="5dp"
             android:text="@string/notion"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/description"
-            app:layout_constraintStart_toEndOf="@+id/gitgub_area"
-            app:layout_constraintTop_toBottomOf="@+id/description" />
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/git_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/notion_img"
+            app:layout_constraintTop_toTopOf="@id/git_img" />
 
-        <ImageView
-            android:id="@+id/notiom_img"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:background="@drawable/notion"
-            app:layout_constraintEnd_toStartOf="@+id/notion_area"
-            app:layout_constraintTop_toBottomOf="@+id/description" />
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="16dp"
+            android:background="@color/lightGray"
+            app:layout_constraintBottom_toTopOf="@id/favorite_textview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/git_img" />
 
         <TextView
             android:id="@+id/favorite_textview"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
+            android:paddingHorizontal="16dp"
             android:text="@string/my_favorite_Videos"
-            android:textSize="25sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/favorite_rv_area"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/notion_area" />
+            app:layout_constraintTop_toBottomOf="@id/view_line" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/favorite_rv_area"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/favorite_textview" />
+            app:layout_constraintTop_toBottomOf="@+id/favorite_textview"
+            tools:listitem="@layout/favorite_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

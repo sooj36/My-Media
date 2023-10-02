@@ -69,7 +69,7 @@ class MyVideoFragment : Fragment() {
     }
 
     private fun initView() = with(binding) {
-        gitgubArea.setOnClickListener {
+        githubArea.setOnClickListener {
             openLinkGit()
             notionArea.setOnClickListener {
                 openLinkNotion()

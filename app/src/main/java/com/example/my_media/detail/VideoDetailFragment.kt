@@ -99,7 +99,7 @@ class VideoDetailFragment : Fragment() {
         }
         titleArea.text = item.txtTitle
         desArea.text = item.txtDescription
-        thumnailArea.load(item.imgThumbnail) {
+        thumbnailArea.load(item.imgThumbnail) {
             error(R.drawable.test)
         }
     }
