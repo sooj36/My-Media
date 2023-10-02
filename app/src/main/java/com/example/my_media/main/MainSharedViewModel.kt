@@ -22,10 +22,8 @@ class MainSharedViewModel : ViewModel() {
         } else {
             MainSharedEventforLike.RemoveLikeItem(item.toMyVideoModel())
         }
-
         val currentEvents = _likeEvent.value ?: mutableListOf()
         currentEvents.add(event)
-
         _likeEvent.value = currentEvents
     }
 
@@ -33,7 +31,6 @@ class MainSharedViewModel : ViewModel() {
         return likeStatusMap[videoId] ?: false
     }
 }
-
 
 sealed interface MainSharedEventforLike {
     data class AddLikeItem(val item: MyVideoModel) : MainSharedEventforLike

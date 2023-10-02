@@ -25,23 +25,21 @@ class MyVideoViewModel : ViewModel() {
         _likeList.value = ArrayList(items)
     }
 
-
     fun removeLikeItem(item: MyVideoModel) {
         val items = _likeList.value?.toMutableList() ?: mutableListOf()
         val findRemoveItem = items.find { it.title == item.title }
         findRemoveItem?.let {
             items.remove(it)
-            _likeList.value = ArrayList(items) //ㅅ제거후 새로운 리스트를 만들어 할당
+            _likeList.value = ArrayList(items)
             Log.d("jun","제거된 아이템$items")
         }
     }
 }
-
 class MyVideoViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MyVideoViewModel::class.java)) {
             return MyVideoViewModel() as T
         }
-        throw IllegalAccessException("not found ViewModel class.") //호환되지 않은 경우 알림
+        throw IllegalAccessException("not found ViewModel class.")
     }
 }

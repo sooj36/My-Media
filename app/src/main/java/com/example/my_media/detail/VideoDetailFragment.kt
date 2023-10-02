@@ -2,7 +2,6 @@ package com.example.my_media.detail
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +13,14 @@ import com.example.my_media.R
 import com.example.my_media.databinding.FragmentVideoDetailBinding
 import com.example.my_media.home.popular.HomePopularModel
 import com.example.my_media.main.MainSharedViewModel
-import com.example.my_media.mypage.MyVideoViewModel
 import com.example.my_media.util.showToast
-import kotlin.math.log
 
 class VideoDetailFragment : Fragment() {
     companion object {
+        private const val ITEM = "item"
         fun newInstance(item: HomePopularModel) = VideoDetailFragment().apply {
             arguments = Bundle().apply {
-                putParcelable("item", item)
+                putParcelable(ITEM, item)
             }
         }
     }
@@ -42,13 +40,14 @@ class VideoDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val item: HomePopularModel? = arguments?.getParcelable("item")
+        val item: HomePopularModel? = arguments?.getParcelable(ITEM)
         item?.let {
             initViewModel(it)
             initView(it)
             shareUrl(it.imgThumbnail)
         }
     }
+
     private fun initViewModel(item: HomePopularModel) {
         item.isLiked = sharedViewModel.getLikeStatus(item.txtTitle)
         updateLikeButtonUI(item.isLiked)
@@ -60,9 +59,15 @@ class VideoDetailFragment : Fragment() {
             val newItem = item.copy(isLiked = !isLiked)
             sharedViewModel.toggleLikeItem(newItem)
             if (isLiked) {
-                context?.showToast("좋아요 리스트에서 제거 되었습니다", Toast.LENGTH_LONG)
+                context?.showToast(
+                    requireContext().getString(R.string.toast_txt_unlike),
+                    Toast.LENGTH_LONG
+                )
             } else
-                context?.showToast("좋아요 리스트에 추가 되었습니다", Toast.LENGTH_LONG)
+                context?.showToast(
+                    requireContext().getString(R.string.toast_txt_like),
+                    Toast.LENGTH_LONG
+                )
             updateLikeButtonUI(newItem.isLiked)
         }
         titleArea.text = item.txtTitle
@@ -71,11 +76,21 @@ class VideoDetailFragment : Fragment() {
             error(R.drawable.test)
         }
     }
+
     private fun updateLikeButtonUI(isLiked: Boolean) = with(binding) {
-        likeBtn.setImageResource(
-            if (isLiked) R.drawable.ic_like else R.drawable.ic_mtlike
-        )
+        if (isLiked) {
+            likeBtn.apply{setAnimation(R.raw.like)
+            playAnimation()
+            }
+        } else {
+            likeBtn.apply {
+                setAnimation(R.raw.like)
+                setMinAndMaxFrame(11, 14)
+                playAnimation()
+            }
+        }
     }
+
     private fun shareUrl(url: String) {
         binding.sharedBtn.setOnClickListener {
             val intent = Intent().apply {
@@ -86,6 +101,7 @@ class VideoDetailFragment : Fragment() {
             startActivity(Intent.createChooser(intent, "이미지 URL 공유"))
         }
     }
+
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
