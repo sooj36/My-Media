@@ -16,7 +16,7 @@ import com.example.my_media.home.subscribe.HomeSubscribeListAdapter
 
 class HomeFragment : Fragment() {
     companion object {
-        fun newInstance(accessToken: String) : HomeFragment {
+        fun newInstance(accessToken: String): HomeFragment {
             val args = Bundle()
             args.putString("AccessToken", accessToken)
             val fragment = HomeFragment()
@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
     }
 
     private var _binding: FragmentHomeBinding? = null
-        private val binding get() = _binding!!
+    private val binding get() = _binding!!
 
 
     private val viewModel: HomeViewModel by viewModels() {
@@ -40,10 +40,10 @@ class HomeFragment : Fragment() {
     private val homePopularListAdapter by lazy {
         HomePopularListAdapter(
             itemClickListener = { item -> //파풀퍼모델객체
-               val fragment = VideoDetailFragment.newInstance(item)
+                val fragment = VideoDetailFragment.newInstance(item)
 
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout,fragment)
+                    .replace(R.id.frameLayout, fragment)
                     .addToBackStack(null)
                     .commit()
             }
@@ -66,7 +66,8 @@ class HomeFragment : Fragment() {
 
     private fun initView() = with(binding) {
         recyclerViewSubscribe.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = homeSubscribeListAdapter
         }
         recyclerViewPopular.apply {
@@ -77,12 +78,26 @@ class HomeFragment : Fragment() {
         val accessToken = arguments?.getString("AccessToken") ?: ""
         viewModel.getSubscribeList("Bearer $accessToken") //구독 리스트 불러오기
 
-        viewModel.getPopularVideo()
+        viewModel.getPopularVideo(
+            "Bearer $accessToken", "1")
 
-        when(chipGroup.checkedChipId) {
-//            R.id.chip_travel -> ...
-            // Todo (키워드 클릭 관련 처리)
-        }
+            when (chipGroup.checkedChipId) {
+                R.id.chip_travel -> {
+
+                }
+
+                R.id.chip_game -> {
+
+                }
+
+                R.id.chip_music -> {
+
+                }
+
+                R.id.chip_sleep -> {
+
+                }
+            }
     }
 
     private fun initViewModel() = with(viewModel) {
