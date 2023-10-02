@@ -2,10 +2,13 @@ package com.example.my_media.main
 
 import android.accounts.Account
 import android.app.Activity
+import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import com.example.my_media.R
 import com.example.my_media.databinding.ActivityMainBinding
 import com.example.my_media.home.HomeFragment
@@ -28,13 +31,18 @@ import java.io.IOException
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
+    private val viewModel: MainViewModel by viewModels {
+        MainViewModelFactory(applicationContext as Application)
+    }
+
+
+
     private val googleAuthLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        Log.d("jun","${result.resultCode}")
         if (result.resultCode == Activity.RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                useAccessToken(account?.account)
+                viewModel.useAccessToken(account?.account)
             } catch (e: ApiException) {
                 Log.e("GoogleSignIn", "Google Sign-In failed: ${e.statusCode}, message: ${e.message}")
             }
@@ -46,7 +54,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initViewModel()
         requestGoogleLogin()
+    }
+
+    private fun initViewModel() = with(viewModel) {
+        tokenData.observe(this@MainActivity) { token ->
+            initView(token)
+        }
     }
 
     private fun requestGoogleLogin() {
@@ -58,31 +73,6 @@ class MainActivity : AppCompatActivity() {
 
         googleSignInClient.signOut()
         googleAuthLauncher.launch(googleSignInClient.signInIntent)
-    }
-
-    private fun useAccessToken(account: Account?) {
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val accountDetails = Account(
-                    account?.name ?: "",
-                    GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE
-                )
-                val token = GoogleAuthUtil.getToken(
-                    applicationContext,
-                    accountDetails,
-                    "oauth2:${YouTubeScopes.YOUTUBE_READONLY}"
-                )
-                initView(token)
-            } catch (e: GooglePlayServicesAvailabilityException) { // Google Play 서비스를 업데이트해야 할 때 처리
-                Log.e("GooglePlayServicesAvailabilityException", "message: ${e.message}")
-            } catch (e: UserRecoverableAuthException) { // 사용자에게 권한을 요청할 때 처리
-                Log.e("UserRecoverableAuthException", "message: ${e.message}")
-            } catch (e: GoogleAuthException) { // 인증 예외 처리
-                Log.e("GoogleAuthException", "message: ${e.message}")
-            } catch (e: IOException) { // 네트워크 또는 I/O 예외 처리
-                Log.e("IOException", "message: ${e.message}")
-            }
-        }
     }
 
     private fun initView(accessToken: String) = with(binding) {
