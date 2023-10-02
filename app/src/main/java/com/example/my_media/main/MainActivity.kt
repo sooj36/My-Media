@@ -45,8 +45,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        requestGoogleLogin()
-        initView("")
+        requestGoogleLogin()
     }
 
     private fun requestGoogleLogin() {
