@@ -1,16 +1,11 @@
 package com.example.my_media.mypage
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -20,14 +15,13 @@ import com.example.my_media.databinding.FragmentMyVideoBinding
 import com.example.my_media.detail.VideoDetailFragment
 import com.example.my_media.main.MainSharedEventforLike
 import com.example.my_media.main.MainSharedViewModel
-import kotlin.random.Random
 
 class MyVideoFragment : Fragment() {
     companion object {
         fun newInstance() = MyVideoFragment()
     }
 
-    private lateinit var imageViews: List<Int>
+//    private lateinit var imageViews: List<Int>
     private var _binding: FragmentMyVideoBinding? = null
     private val viewModel: MyVideoViewModel by viewModels { MyVideoViewModelFactory() }
     private val sharedViewModel: MainSharedViewModel by activityViewModels()
@@ -56,6 +50,7 @@ class MyVideoFragment : Fragment() {
                 adapter.submitList(it)
             }
         }
+
         with(sharedViewModel) {
             likeEvent.observe(viewLifecycleOwner) {
                 it.forEach { event ->
@@ -80,34 +75,36 @@ class MyVideoFragment : Fragment() {
                 openLinkNotion()
             }
         }
+        lotti.setAnimation(R.raw.profile)
+        lotti.playAnimation()
 
-        imageViews = listOf(
-            R.drawable.test,
-            R.drawable.test2,
-            R.drawable.test3,
-            R.drawable.test4,
-            R.drawable.test5,
-            R.drawable.test6
-        )
-
-        profileImgArea.setOnClickListener {
-            val nextIndex = Random.nextInt(imageViews.size)
-            val nextImageResId = imageViews[nextIndex]
-
-            val fadeIn = ObjectAnimator.ofFloat(profileImgArea, "alpha", 0f, 1f)
-            fadeIn.duration = 1000
-
-            val fadeOut = ObjectAnimator.ofFloat(profileImgArea, "alpha", 1f, 0f)
-            fadeOut.duration = 1000
-
-            fadeOut.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    profileImgArea.setImageResource(nextImageResId)
-                    fadeIn.start()
-                }
-            })
-            fadeOut.start()
-        }
+//        imageViews = listOf(
+//            R.drawable.test,
+//            R.drawable.test2,
+//            R.drawable.test3,
+//            R.drawable.test4,
+//            R.drawable.test5,
+//            R.drawable.test6
+//        )
+//
+//        profileImgArea.setOnClickListener {
+//            val nextIndex = Random.nextInt(imageViews.size)
+//            val nextImageResId = imageViews[nextIndex]
+//
+//            val fadeIn = ObjectAnimator.ofFloat(profileImgArea, "alpha", 0f, 1f)
+//            fadeIn.duration = 1000
+//
+//            val fadeOut = ObjectAnimator.ofFloat(profileImgArea, "alpha", 1f, 0f)
+//            fadeOut.duration = 1000
+//
+//            fadeOut.addListener(object : AnimatorListenerAdapter() {
+//                override fun onAnimationEnd(animation: Animator) {
+//                    profileImgArea.setImageResource(nextImageResId)
+//                    fadeIn.start()
+//                }
+//            })
+//            fadeOut.start()
+//        }
     }
 
     private fun openLinkGit() {
