@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.my_media.databinding.FavoriteItemBinding
 import coil.load
 import com.example.my_media.R
+import com.example.my_media.databinding.ItemFavoriteBinding
 
 
 class MyVideoAdapter(val itemClickListener: (MyVideoModel) -> Unit) :
@@ -15,7 +15,7 @@ class MyVideoAdapter(val itemClickListener: (MyVideoModel) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyVideoAdapter.ViewHolder {
         val binding =
-            FavoriteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemFavoriteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -33,7 +33,7 @@ class MyVideoAdapter(val itemClickListener: (MyVideoModel) -> Unit) :
         }
     }
 
-    inner class ViewHolder(private val binding: FavoriteItemBinding) :
+    inner class ViewHolder(private val binding: ItemFavoriteBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
