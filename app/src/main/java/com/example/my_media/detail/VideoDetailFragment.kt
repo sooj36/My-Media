@@ -86,12 +86,12 @@ class VideoDetailFragment : Fragment() {
             val newItem = item.copy(isLiked = !isLiked)
             sharedViewModel.toggleLikeItem(newItem)
             if (isLiked) {
-                context?.showToast(
+                requireContext().showToast(
                     requireContext().getString(R.string.toast_txt_unlike),
                     Toast.LENGTH_LONG
                 )
             } else
-                context?.showToast(
+                requireContext().showToast(
                     requireContext().getString(R.string.toast_txt_like),
                     Toast.LENGTH_LONG
                 )
