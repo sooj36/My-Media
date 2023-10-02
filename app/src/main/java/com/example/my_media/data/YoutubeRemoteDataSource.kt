@@ -17,12 +17,12 @@ interface YoutubeRemoteDataSource {
 
     @GET("youtube/v3/videos")
     suspend fun getPopularVideo(
+        @Header("Authorization") token: String,
         @Query("part") part : String = "snippet",
         @Query("chart") chart : String = "mostPopular",
         @Query("maxResults") maxResults : Int = 20,
         @Query("regionCode") regionCode : String = "KR",
-//        @Query("videoCategoryId") videoCategoryId : String,
-        @Query("key") key: String
+        @Query("videoCategoryId") videoCategoryId : String,
     ) : PopularVideosResponse
 
     @GET("youtube/v3/search")
