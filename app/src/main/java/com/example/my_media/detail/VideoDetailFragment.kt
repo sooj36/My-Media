@@ -2,6 +2,7 @@ package com.example.my_media.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,7 @@ import com.example.my_media.util.showToast
 class VideoDetailFragment : Fragment() {
     companion object {
         private const val ITEM = "item"
-        fun newInstance(item: HomePopularModel) = VideoDetailFragment().apply {
+        fun newInstance(item: Parcelable) = VideoDetailFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(ITEM, item)
             }

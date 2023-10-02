@@ -11,18 +11,17 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.my_media.R
 import com.example.my_media.databinding.FragmentSearchBinding
-import com.example.my_media.mypage.MyVideoFragment
+import com.example.my_media.detail.VideoDetailFragment
+
 
 class SearchFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = SearchFragment()
-    }
+companion object {
+    fun newInstance() = SearchFragment()
+}
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    lateinit var adapter: SearchListAdapter
-    lateinit var searchRecyclerView: RecyclerView
+        lateinit var searchRecyclerView: RecyclerView
     lateinit var item: SearchModel
 
     private val viewModel: SearchViewModel by viewModels {
@@ -30,7 +29,14 @@ class SearchFragment : Fragment() {
     }
 
     private val searchListAdapter by lazy {
-        SearchListAdapter()
+        SearchListAdapter { item ->
+
+            val moveFragment = VideoDetailFragment.newInstance(item.toHomePopularModel())
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frameLayout, moveFragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun onCreateView(
@@ -38,29 +44,7 @@ class SearchFragment : Fragment() {
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         searchRecyclerView = binding.recyclerviewResult
-        adapter = SearchListAdapter()
-        searchRecyclerView.adapter = adapter
-
-        adapter.itemClick = object : SearchListAdapter.ItemClick {
-            override fun onClick(position: Int) {
-                val clickedItem = searchListAdapter.currentList[position]
-                val moveFragment = MyVideoFragment()
-                val bundle = Bundle()
-                bundle.putString("title", clickedItem.searchedTitle)
-                bundle.putString("videoUrl", clickedItem.searchedVideo)
-                moveFragment.arguments = bundle
-
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.search_recyclerview_item, moveFragment)
-                    .addToBackStack(null)
-                    .commit()
-            }
-        }
-
-
-
-
-
+        searchRecyclerView.adapter = searchListAdapter
         return binding.root
     }
 

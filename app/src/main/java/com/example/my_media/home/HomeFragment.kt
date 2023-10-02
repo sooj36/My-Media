@@ -87,6 +87,10 @@ class HomeFragment : Fragment() {
         chipGroup.setOnCheckedChangeListener { group, checkedId ->
 
             when (chipGroup.checkedChipId) {
+                R.id.chip_all -> {
+                    videoCategoryId = "0"
+                    Log.d("sooj", "$videoCategoryId =")
+                }
                 R.id.chip_animal -> {
                     videoCategoryId = "15"
                     Log.d("sooj", "Pets & Animals")

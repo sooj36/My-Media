@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.my_media.databinding.SearchRecyclerviewItemBinding
+import com.example.my_media.mypage.MyVideoModel
 
-class SearchListAdapter : ListAdapter<SearchModel, SearchListAdapter.ViewHolder>(
+class SearchListAdapter(val itemClickListener: (SearchModel) -> Unit) : ListAdapter<SearchModel, SearchListAdapter.ViewHolder>(
     object : DiffUtil.ItemCallback<SearchModel>() {
         override fun areItemsTheSame(oldItem: SearchModel, newItem: SearchModel): Boolean {
             return oldItem.searchedTitle == newItem.searchedTitle
@@ -22,22 +23,18 @@ class SearchListAdapter : ListAdapter<SearchModel, SearchListAdapter.ViewHolder>
 ) {
     inner class ViewHolder(private val binding: SearchRecyclerviewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.root.setOnClickListener {
+                val position = adapterPosition.takeIf { it != RecyclerView.NO_POSITION }
+                    ?: return@setOnClickListener
+                itemClickListener(getItem(position))
+            }
+        }
         fun bind(item: SearchModel) = with(binding) {
             searchImgItem.load(item.searchedVideo)
             searchTxtItem.text = item.searchedTitle
-
-            root.setOnClickListener {
-                itemClick?.onClick(adapterPosition)
-            }
         }
     }
-
-    interface ItemClick {
-        fun onClick(position: Int)
-    }
-
-    var itemClick: ItemClick? = null
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = SearchRecyclerviewItemBinding.inflate(
@@ -50,8 +47,5 @@ class SearchListAdapter : ListAdapter<SearchModel, SearchListAdapter.ViewHolder>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
-        holder.itemView.setOnClickListener {
-            itemClick?.onClick(position)
-        }
     }
 }

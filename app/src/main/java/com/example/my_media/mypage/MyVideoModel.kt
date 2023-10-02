@@ -7,15 +7,13 @@ data class MyVideoModel(
     val title: String,
     val description: String,
     val photo: String,
-    val isLiked: Boolean,
-    var videoCategoryId : String
+    val isLiked: Boolean
 )
 fun MyVideoModel.toHomePopularModel(): HomePopularModel {
     return HomePopularModel(
         imgThumbnail = photo,
         txtTitle = title,
         txtDescription = description,
-        isLiked = isLiked,
-        videoCategoryId = videoCategoryId
+        isLiked = isLiked
     )
 }
