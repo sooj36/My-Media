@@ -28,11 +28,12 @@
             app:layout_constraintTop_toTopOf="@+id/back_img_area">
 
             <ImageView
-                android:id="@+id/profile_img_Area"
+                android:id="@+id/profile_img_area"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/test" />
+
         </androidx.cardview.widget.CardView>
 
         <TextView
