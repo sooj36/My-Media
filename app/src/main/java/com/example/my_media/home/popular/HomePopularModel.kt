@@ -17,7 +17,8 @@ fun HomePopularModel.toMyVideoModel():MyVideoModel{
         title = txtTitle,
         description = txtDescription,
         photo = imgThumbnail,
-        isLiked = isLiked
+        isLiked = isLiked,
+        videoCategoryId = videoCategoryId
 
     )
 }

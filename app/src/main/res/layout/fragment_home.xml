@@ -10,7 +10,7 @@
         android:id="@+id/chip_group"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:checkedChip="@id/chip_travel"
+        app:checkedChip="@id/chip_animal"
         app:layout_constraintBottom_toTopOf="@id/txt_subscribe_videos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,11 +19,11 @@
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip_travel"
+            android:id="@+id/chip_animal"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/home_chip_travel"
+            android:text="@string/home_chip_animal"
             android:textColor="@color/white"
             app:chipBackgroundColor="@color/pressed_chip" />
 
@@ -46,11 +46,11 @@
             app:chipBackgroundColor="@color/pressed_chip" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip_sleep"
+            android:id="@+id/chip_comedy"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/home_chip_sleep"
+            android:text="@string/home_chip_comedy"
             android:textColor="@color/white"
             app:chipBackgroundColor="@color/pressed_chip" />
 
