@@ -87,12 +87,12 @@ class VideoDetailFragment : Fragment() {
             sharedViewModel.toggleLikeItem(newItem)
             if (isLiked) {
                 requireContext().showToast(
-                    requireContext().getString(R.string.toast_txt_unlike),
+                    requireContext().getString(R.string.detail_toast_unlike),
                     Toast.LENGTH_LONG
                 )
             } else
                 requireContext().showToast(
-                    requireContext().getString(R.string.toast_txt_like),
+                    requireContext().getString(R.string.detail_toast_like),
                     Toast.LENGTH_LONG
                 )
             updateLikeButtonUI(newItem.isLiked)
@@ -101,6 +101,9 @@ class VideoDetailFragment : Fragment() {
         desArea.text = item.txtDescription
         thumbnailArea.load(item.imgThumbnail) {
             error(R.drawable.test)
+        }
+        backBtn.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
         }
     }
 

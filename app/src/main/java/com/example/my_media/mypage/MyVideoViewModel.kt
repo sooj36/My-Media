@@ -13,6 +13,8 @@ class MyVideoViewModel : ViewModel() {
     private val _likeList: MutableLiveData<List<MyVideoModel>> = MutableLiveData(mutableListOf())
     val likeList: LiveData<List<MyVideoModel>> get() = _likeList
 
+
+
     fun addLikeItem(item: MyVideoModel) {
         val items = _likeList.value?.toMutableList() ?: mutableListOf()
         val findItem = items.find { it.title == item.title }

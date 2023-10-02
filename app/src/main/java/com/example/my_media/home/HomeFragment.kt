@@ -39,8 +39,8 @@ class HomeFragment : Fragment() {
     }
 
     private val homePopularListAdapter by lazy {
-        HomePopularListAdapter(
-            itemClickListener = { item -> //파풀퍼모델객체
+        HomePopularListAdapter(requireContext(),
+            itemClickListener = { item ->
                 val fragment = VideoDetailFragment.newInstance(item)
 
                 requireActivity().supportFragmentManager.beginTransaction()

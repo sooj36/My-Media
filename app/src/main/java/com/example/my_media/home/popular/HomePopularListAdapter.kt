@@ -1,7 +1,10 @@
 package com.example.my_media.home.popular
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +13,7 @@ import com.example.my_media.R
 import com.example.my_media.databinding.ItemVideosBinding
 
 class HomePopularListAdapter(
+    val context: Context,
     val itemClickListener: (HomePopularModel) -> Unit
 ): ListAdapter<HomePopularModel, HomePopularListAdapter.ViewHolder>(
     object: DiffUtil.ItemCallback<HomePopularModel>() {
@@ -50,7 +54,12 @@ class HomePopularListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val lastPosition = -1
+        if (holder.adapterPosition > lastPosition){
+            val animation: Animation = AnimationUtils.loadAnimation(context,R.anim.slide_in_row)
+            holder.bind(getItem(position))
+            holder.itemView.startAnimation(animation)
+        }
 
     }
 }
