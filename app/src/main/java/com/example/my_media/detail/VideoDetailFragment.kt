@@ -47,6 +47,7 @@ class VideoDetailFragment : Fragment() {
             shareUrl(it.imgThumbnail)
         }
     }
+
     private fun initViewModel(item: HomePopularModel) {
         item.isLiked = sharedViewModel.getLikeStatus(item.txtTitle)
         updateLikeButtonUI(item.isLiked)
@@ -58,9 +59,15 @@ class VideoDetailFragment : Fragment() {
             val newItem = item.copy(isLiked = !isLiked)
             sharedViewModel.toggleLikeItem(newItem)
             if (isLiked) {
-                context?.showToast(context!!.getString(R.string.toast_txt_unlike), Toast.LENGTH_LONG)
+                context?.showToast(
+                    requireContext().getString(R.string.toast_txt_unlike),
+                    Toast.LENGTH_LONG
+                )
             } else
-                context?.showToast(context!!.getString(R.string.toast_txt_like), Toast.LENGTH_LONG)
+                context?.showToast(
+                    requireContext().getString(R.string.toast_txt_like),
+                    Toast.LENGTH_LONG
+                )
             updateLikeButtonUI(newItem.isLiked)
         }
         titleArea.text = item.txtTitle
@@ -69,17 +76,21 @@ class VideoDetailFragment : Fragment() {
             error(R.drawable.test)
         }
     }
-    private fun updateLikeButtonUI(isLiked: Boolean) = with(binding) {
-        if (isLiked){
-            likeBtn.setAnimation(R.raw.like)
-            likeBtn.playAnimation()
-        }else{
-            likeBtn.setAnimation(R.raw.like)
-            likeBtn.setMinAndMaxFrame(11,14)
-            likeBtn.playAnimation()
-        }
 
+    private fun updateLikeButtonUI(isLiked: Boolean) = with(binding) {
+        if (isLiked) {
+            likeBtn.apply{setAnimation(R.raw.like)
+            playAnimation()
+            }
+        } else {
+            likeBtn.apply {
+                setAnimation(R.raw.like)
+                setMinAndMaxFrame(11, 14)
+                playAnimation()
+            }
+        }
     }
+
     private fun shareUrl(url: String) {
         binding.sharedBtn.setOnClickListener {
             val intent = Intent().apply {
@@ -90,6 +101,7 @@ class VideoDetailFragment : Fragment() {
             startActivity(Intent.createChooser(intent, "이미지 URL 공유"))
         }
     }
+
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
