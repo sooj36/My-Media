@@ -14,14 +14,16 @@ import com.example.my_media.R
 import com.example.my_media.databinding.FragmentVideoDetailBinding
 import com.example.my_media.home.popular.HomePopularModel
 import com.example.my_media.main.MainSharedViewModel
+import com.example.my_media.search.SearchModel
+import com.example.my_media.search.toHomePopularModel
 import com.example.my_media.util.showToast
 
 class VideoDetailFragment : Fragment() {
     companion object {
-        private const val ITEM = "item"
+        private const val ITEM_KEY = "itemKey"
         fun newInstance(item: Parcelable) = VideoDetailFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(ITEM, item)
+                putParcelable(ITEM_KEY, item)
             }
         }
     }
@@ -41,11 +43,35 @@ class VideoDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val item: HomePopularModel? = arguments?.getParcelable(ITEM)
-        item?.let {
-            initViewModel(it)
-            initView(it)
-            shareUrl(it.imgThumbnail)
+
+        arguments?.let { args ->
+            val item: Parcelable? = args.getParcelable(ITEM_KEY)
+            when (item) {
+                is HomePopularModel -> {
+                    init(item)
+                    shareUrl(item.imgThumbnail)
+                }
+                is SearchModel -> {
+                    init(item.toHomePopularModel())
+                    shareUrl(item.searchedVideo)
+                }
+                else -> return
+            }
+        }
+    }
+    private fun init(item: Any) {
+        when (item) {
+            is HomePopularModel -> {
+                initViewModel(item)
+                initView(item)
+                shareUrl(item.imgThumbnail)
+            }
+            is SearchModel -> {
+                initViewModel(item.toHomePopularModel())
+                initView(item.toHomePopularModel())
+                shareUrl(item.searchedVideo)
+            }
+            else -> return
         }
     }
 
@@ -81,7 +107,7 @@ class VideoDetailFragment : Fragment() {
     private fun updateLikeButtonUI(isLiked: Boolean) = with(binding) {
         if (isLiked) {
             likeBtn.apply{setAnimation(R.raw.like)
-            playAnimation()
+                playAnimation()
             }
         } else {
             likeBtn.apply {

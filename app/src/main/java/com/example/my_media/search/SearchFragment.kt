@@ -31,7 +31,7 @@ companion object {
     private val searchListAdapter by lazy {
         SearchListAdapter { item ->
 
-            val moveFragment = VideoDetailFragment.newInstance(item.toHomePopularModel())
+            val moveFragment = VideoDetailFragment.newInstance(item)
             parentFragmentManager.beginTransaction()
                 .replace(R.id.frameLayout, moveFragment)
                 .addToBackStack(null)

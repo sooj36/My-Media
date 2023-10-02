@@ -10,7 +10,6 @@ data class SearchModel (
     var searchdes: String,
     var searchedVideo: String,
     var isLiked : Boolean
-
 ): Parcelable
 fun SearchModel.toHomePopularModel(): HomePopularModel {
     return HomePopularModel(
@@ -18,5 +17,6 @@ fun SearchModel.toHomePopularModel(): HomePopularModel {
         txtDescription = searchdes,
         imgThumbnail = searchedVideo,
         isLiked = isLiked
+
     )
 }

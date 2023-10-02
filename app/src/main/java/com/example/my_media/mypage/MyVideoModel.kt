@@ -1,6 +1,5 @@
 package com.example.my_media.mypage
 
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.my_media.home.popular.HomePopularModel
 
 data class MyVideoModel(
