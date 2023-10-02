@@ -86,12 +86,12 @@ class VideoDetailFragment : Fragment() {
             val newItem = item.copy(isLiked = !isLiked)
             sharedViewModel.toggleLikeItem(newItem)
             if (isLiked) {
-                context?.showToast(
+                requireContext().showToast(
                     requireContext().getString(R.string.detail_toast_unlike),
                     Toast.LENGTH_LONG
                 )
             } else
-                context?.showToast(
+                requireContext().showToast(
                     requireContext().getString(R.string.detail_toast_like),
                     Toast.LENGTH_LONG
                 )
@@ -101,6 +101,9 @@ class VideoDetailFragment : Fragment() {
         desArea.text = item.txtDescription
         thumbnailArea.load(item.imgThumbnail) {
             error(R.drawable.test)
+        }
+        backBtn.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
         }
     }
 

@@ -29,7 +29,7 @@ companion object {
     }
 
     private val searchListAdapter by lazy {
-        SearchListAdapter { item ->
+        SearchListAdapter(requireContext()) { item ->
 
             val moveFragment = VideoDetailFragment.newInstance(item)
             parentFragmentManager.beginTransaction()

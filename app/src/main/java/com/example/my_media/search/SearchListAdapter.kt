@@ -1,14 +1,18 @@
 package com.example.my_media.search
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.my_media.R
 import com.example.my_media.databinding.ItemSearchBinding
 
-class SearchListAdapter(val itemClickListener: (SearchModel) -> Unit) : ListAdapter<SearchModel, SearchListAdapter.ViewHolder>(
+class SearchListAdapter(val context: Context, val itemClickListener: (SearchModel) -> Unit) : ListAdapter<SearchModel, SearchListAdapter.ViewHolder>(
     object : DiffUtil.ItemCallback<SearchModel>() {
         override fun areItemsTheSame(oldItem: SearchModel, newItem: SearchModel): Boolean {
             return oldItem.searchedTitle == newItem.searchedTitle
@@ -44,6 +48,11 @@ class SearchListAdapter(val itemClickListener: (SearchModel) -> Unit) : ListAdap
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val lastPosition = -1
+        if (holder.adapterPosition > lastPosition){
+            val animation: Animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_row)
+            holder.bind(getItem(position))
+            holder.itemView.startAnimation(animation)
+        }
     }
 }

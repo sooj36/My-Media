@@ -3,7 +3,6 @@ package com.example.my_media.mypage
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +21,7 @@ class MyVideoFragment : Fragment() {
         fun newInstance() = MyVideoFragment()
     }
 
+//    private lateinit var imageViews: List<Int>
     private var _binding: FragmentMyVideoBinding? = null
     private val viewModel: MyVideoViewModel by viewModels { MyVideoViewModelFactory() }
     private val sharedViewModel: MainSharedViewModel by activityViewModels()
@@ -30,9 +30,7 @@ class MyVideoFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMyVideoBinding.inflate(inflater, container, false)
         return binding.root
@@ -40,6 +38,7 @@ class MyVideoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initView()
         setUpRecylclerView()
         initViewModel()
@@ -51,6 +50,7 @@ class MyVideoFragment : Fragment() {
                 adapter.submitList(it)
             }
         }
+
         with(sharedViewModel) {
             likeEvent.observe(viewLifecycleOwner) {
                 it.forEach { event ->
@@ -75,6 +75,36 @@ class MyVideoFragment : Fragment() {
                 openLinkNotion()
             }
         }
+        lotti.setAnimation(R.raw.profile)
+        lotti.playAnimation()
+
+//        imageViews = listOf(
+//            R.drawable.test,
+//            R.drawable.test2,
+//            R.drawable.test3,
+//            R.drawable.test4,
+//            R.drawable.test5,
+//            R.drawable.test6
+//        )
+//
+//        profileImgArea.setOnClickListener {
+//            val nextIndex = Random.nextInt(imageViews.size)
+//            val nextImageResId = imageViews[nextIndex]
+//
+//            val fadeIn = ObjectAnimator.ofFloat(profileImgArea, "alpha", 0f, 1f)
+//            fadeIn.duration = 1000
+//
+//            val fadeOut = ObjectAnimator.ofFloat(profileImgArea, "alpha", 1f, 0f)
+//            fadeOut.duration = 1000
+//
+//            fadeOut.addListener(object : AnimatorListenerAdapter() {
+//                override fun onAnimationEnd(animation: Animator) {
+//                    profileImgArea.setImageResource(nextImageResId)
+//                    fadeIn.start()
+//                }
+//            })
+//            fadeOut.start()
+//        }
     }
 
     private fun openLinkGit() {
@@ -92,12 +122,10 @@ class MyVideoFragment : Fragment() {
 
     private fun setUpRecylclerView() {
         binding.apply {
-            favoriteRvArea.adapter = MyVideoAdapter { item ->
+            favoriteRvArea.adapter = MyVideoAdapter(requireContext()) { item ->
                 val fragment = VideoDetailFragment.newInstance(item.toHomePopularModel())
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, fragment)
-                    .addToBackStack(null)
-                    .commit()
+                    .replace(R.id.frameLayout, fragment).addToBackStack(null).commit()
             }
             favoriteRvArea.layoutManager = GridLayoutManager(context, 2)
         }
