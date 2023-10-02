@@ -14,10 +14,13 @@ class SearchViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) 
     private val _list: MutableLiveData<List<SearchModel>> = MutableLiveData()
     val list: LiveData<List<SearchModel>> get() = _list
 
+    private  var isLoading = false
+    private  var nextPageToken: String? = null
+
     fun getSearchVideo(query: String) {
         viewModelScope.launch {
             try {
-                val response = youtubeRepositoryImpl.getSearchVideo().items
+                val response = youtubeRepositoryImpl.getSearchVideo(query =  query).items
                 val searchItems = ArrayList<SearchModel>()
                 response.forEach {
                     searchItems.add(
