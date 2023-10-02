@@ -87,12 +87,12 @@ class VideoDetailFragment : Fragment() {
             sharedViewModel.toggleLikeItem(newItem)
             if (isLiked) {
                 context?.showToast(
-                    requireContext().getString(R.string.toast_txt_unlike),
+                    requireContext().getString(R.string.detail_toast_unlike),
                     Toast.LENGTH_LONG
                 )
             } else
                 context?.showToast(
-                    requireContext().getString(R.string.toast_txt_like),
+                    requireContext().getString(R.string.detail_toast_like),
                     Toast.LENGTH_LONG
                 )
             updateLikeButtonUI(newItem.isLiked)
