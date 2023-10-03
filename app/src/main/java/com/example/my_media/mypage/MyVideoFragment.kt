@@ -1,8 +1,10 @@
 package com.example.my_media.mypage
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,14 +23,13 @@ class MyVideoFragment : Fragment() {
         fun newInstance() = MyVideoFragment()
     }
 
-//    private lateinit var imageViews: List<Int>
     private var _binding: FragmentMyVideoBinding? = null
     private val viewModel: MyVideoViewModel by viewModels { MyVideoViewModelFactory() }
     private val sharedViewModel: MainSharedViewModel by activityViewModels()
     private val binding get() = _binding!!
     private val adapter: MyVideoAdapter by lazy { binding.favoriteRvArea.adapter as MyVideoAdapter }
 
-
+    //라이플사이클 다넣고 로그찍고 back하고 왓을때랑 홈갔다왔을때 차이 확인해서 둘다 실행되는쪽에 백갔다오면 온뷰크레이트 안불릴거같은 예상
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -38,6 +39,7 @@ class MyVideoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("jun", "lifecycle : onViewCreated")
 
         initView()
         setUpRecylclerView()
@@ -47,7 +49,8 @@ class MyVideoFragment : Fragment() {
     private fun initViewModel() {
         with(viewModel) {
             likeList.observe(viewLifecycleOwner) {
-                adapter.submitList(it)
+                Log.d("jun", "섭밋리스트: $it")
+                adapter.submitList(ArrayList(it))
             }
         }
 
@@ -77,34 +80,6 @@ class MyVideoFragment : Fragment() {
         }
         lotti.setAnimation(R.raw.profile)
         lotti.playAnimation()
-
-//        imageViews = listOf(
-//            R.drawable.test,
-//            R.drawable.test2,
-//            R.drawable.test3,
-//            R.drawable.test4,
-//            R.drawable.test5,
-//            R.drawable.test6
-//        )
-//
-//        profileImgArea.setOnClickListener {
-//            val nextIndex = Random.nextInt(imageViews.size)
-//            val nextImageResId = imageViews[nextIndex]
-//
-//            val fadeIn = ObjectAnimator.ofFloat(profileImgArea, "alpha", 0f, 1f)
-//            fadeIn.duration = 1000
-//
-//            val fadeOut = ObjectAnimator.ofFloat(profileImgArea, "alpha", 1f, 0f)
-//            fadeOut.duration = 1000
-//
-//            fadeOut.addListener(object : AnimatorListenerAdapter() {
-//                override fun onAnimationEnd(animation: Animator) {
-//                    profileImgArea.setImageResource(nextImageResId)
-//                    fadeIn.start()
-//                }
-//            })
-//            fadeOut.start()
-//        }
     }
 
     private fun openLinkGit() {
@@ -125,15 +100,41 @@ class MyVideoFragment : Fragment() {
             favoriteRvArea.adapter = MyVideoAdapter(requireContext()) { item ->
                 val fragment = VideoDetailFragment.newInstance(item.toHomePopularModel())
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, fragment).addToBackStack(null).commit()
+                    .replace(R.id.frameLayout, fragment)
+                    .addToBackStack(null)
+                    .commit()
             }
             favoriteRvArea.layoutManager = GridLayoutManager(context, 2)
+
         }
+
     }
 
+    override fun onStart() {
+        super.onStart()
+        Log.d("jun", "lifecycle : onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("jun", "lifecycle : onResume")
+
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("jun", "lifecycle : onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("jun", "lifecycle : onStop")
+    }
 
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+        Log.d("jun", "lifecycle : onDestroyView")
     }
 }
