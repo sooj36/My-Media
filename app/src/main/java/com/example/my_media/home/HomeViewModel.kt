@@ -16,6 +16,9 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) : 
     private val _subscribeList: MutableLiveData<List<HomeSubscribeModel>> = MutableLiveData()
     val subscribeList: LiveData<List<HomeSubscribeModel>> get() = _subscribeList
 
+    private val _isEmptySubscribe: MutableLiveData<Boolean> = MutableLiveData()
+    val isEmptySubscribe: LiveData<Boolean> get() = _isEmptySubscribe
+
     private val _popularVideoList: MutableLiveData<List<HomePopularModel>> = MutableLiveData()
     val popularVideoList: LiveData<List<HomePopularModel>> get() = _popularVideoList
 
@@ -24,14 +27,18 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) : 
             runCatching {
                 val response = youtubeRepositoryImpl.getSubscribe(accessToken).items
                 val subscribeItems = ArrayList<HomeSubscribeModel>()
-
-                response?.forEach {
-                    subscribeItems.add(
-                        HomeSubscribeModel(
-                            it.subscribeSnippet?.subscribeThumbnails?.default?.url.orEmpty(),
-                            it.subscribeSnippet?.title.orEmpty()
+                if(response.isNullOrEmpty()) {
+                    _isEmptySubscribe.value = true
+                    subscribeItems.add(HomeSubscribeModel(" ", " "))
+                } else {
+                    response.forEach {
+                        subscribeItems.add(
+                            HomeSubscribeModel(
+                                it.subscribeSnippet?.subscribeThumbnails?.default?.url.orEmpty(),
+                                it.subscribeSnippet?.title.orEmpty()
+                            )
                         )
-                    )
+                    }
                 }
                 val currentList = subscribeList.value.orEmpty().toMutableList()
                 currentList.addAll(subscribeItems)

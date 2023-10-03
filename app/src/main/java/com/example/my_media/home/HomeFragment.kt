@@ -122,6 +122,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModel() = with(viewModel) {
+        isEmptySubscribe.observe(viewLifecycleOwner) { isEmpty ->
+            if(isEmpty) {
+                binding.txtEmptySubscribe.visibility = View.VISIBLE
+            } else {
+                binding.txtEmptySubscribe.visibility = View.INVISIBLE
+            }
+        }
         subscribeList.observe(viewLifecycleOwner) {
             homeSubscribeListAdapter.submitList(it)
         }

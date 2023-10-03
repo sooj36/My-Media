@@ -14,6 +14,7 @@
     <string name="home_chip_comedy">유머</string>
     <string name="home_txt_popular_videos">인기 동영상</string>
     <string name="home_txt_subscribe_videos">구독 리스트</string>
+    <string name="home_txt_empty_subscribe">구독된 계정이 없습니다.</string>
 
     <string name="detail_btn_like">좋아요</string>
     <string name="detail_btn_share">공유</string>
