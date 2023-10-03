@@ -85,16 +85,14 @@ class VideoDetailFragment : Fragment() {
             val isLiked = sharedViewModel.getLikeStatus(item.txtTitle)
             val newItem = item.copy(isLiked = !isLiked)
             sharedViewModel.toggleLikeItem(newItem)
-            if (isLiked) {
-                requireContext().showToast(
-                    requireContext().getString(R.string.detail_toast_unlike),
-                    Toast.LENGTH_LONG
-                )
-            } else
-                requireContext().showToast(
-                    requireContext().getString(R.string.detail_toast_like),
-                    Toast.LENGTH_LONG
-                )
+            val text = if(isLiked) {
+                requireContext().getString(R.string.detail_toast_unlike)
+            } else {
+                requireContext().getString(R.string.detail_toast_like)
+            }
+            requireContext().showToast(
+                text, Toast.LENGTH_SHORT
+            )
             updateLikeButtonUI(newItem.isLiked)
         }
         titleArea.text = item.txtTitle

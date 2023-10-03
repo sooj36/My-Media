@@ -25,9 +25,9 @@ class SearchViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) 
                 response.forEach {
                     searchItems.add(
                         SearchModel(
-                            it.searchSnippet?.title ?: "",
-                            it.searchSnippet?.description?:"",
-                            it.searchSnippet?.searchThumbnails?.high?.url ?:"",
+                            it.searchSnippet?.title.orEmpty(),
+                            it.searchSnippet?.description.orEmpty(),
+                            it.searchSnippet?.searchThumbnails?.high?.url.orEmpty(),
                             isLiked = false
                         )
                     )

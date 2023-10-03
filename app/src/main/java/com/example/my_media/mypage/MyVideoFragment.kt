@@ -1,6 +1,6 @@
 package com.example.my_media.mypage
 
-import android.content.Context
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -23,13 +23,14 @@ class MyVideoFragment : Fragment() {
         fun newInstance() = MyVideoFragment()
     }
 
+//    private lateinit var imageViews: List<Int>
     private var _binding: FragmentMyVideoBinding? = null
-    private val viewModel: MyVideoViewModel by viewModels { MyVideoViewModelFactory() }
+    private val viewModel: MyVideoViewModel by viewModels { MyVideoViewModelFactory(requireContext()) }
     private val sharedViewModel: MainSharedViewModel by activityViewModels()
     private val binding get() = _binding!!
     private val adapter: MyVideoAdapter by lazy { binding.favoriteRvArea.adapter as MyVideoAdapter }
 
-    //라이플사이클 다넣고 로그찍고 back하고 왓을때랑 홈갔다왔을때 차이 확인해서 둘다 실행되는쪽에 백갔다오면 온뷰크레이트 안불릴거같은 예상
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -49,6 +50,8 @@ class MyVideoFragment : Fragment() {
     private fun initViewModel() {
         with(viewModel) {
             likeList.observe(viewLifecycleOwner) {
+                adapter.submitList(it)
+                setSharedPrefsList()
                 Log.d("jun", "섭밋리스트: $it")
                 adapter.submitList(ArrayList(it))
             }
@@ -72,14 +75,42 @@ class MyVideoFragment : Fragment() {
     }
 
     private fun initView() = with(binding) {
-        githubArea.setOnClickListener {
+        constraintGithub.setOnClickListener {
             openLinkGit()
-            notionArea.setOnClickListener {
-                openLinkNotion()
-            }
+        }
+        constraintNotion.setOnClickListener {
+            openLinkNotion()
         }
         lotti.setAnimation(R.raw.profile)
         lotti.playAnimation()
+
+//        imageViews = listOf(
+//            R.drawable.test,
+//            R.drawable.test2,
+//            R.drawable.test3,
+//            R.drawable.test4,
+//            R.drawable.test5,
+//            R.drawable.test6
+//        )
+//
+//        profileImgArea.setOnClickListener {
+//            val nextIndex = Random.nextInt(imageViews.size)
+//            val nextImageResId = imageViews[nextIndex]
+//
+//            val fadeIn = ObjectAnimator.ofFloat(profileImgArea, "alpha", 0f, 1f)
+//            fadeIn.duration = 1000
+//
+//            val fadeOut = ObjectAnimator.ofFloat(profileImgArea, "alpha", 1f, 0f)
+//            fadeOut.duration = 1000
+//
+//            fadeOut.addListener(object : AnimatorListenerAdapter() {
+//                override fun onAnimationEnd(animation: Animator) {
+//                    profileImgArea.setImageResource(nextImageResId)
+//                    fadeIn.start()
+//                }
+//            })
+//            fadeOut.start()
+//        }
     }
 
     private fun openLinkGit() {
@@ -92,6 +123,7 @@ class MyVideoFragment : Fragment() {
             Intent.ACTION_VIEW,
             Uri.parse("https://teamsparta.notion.site/12-S-A-f79dc026055d4ec98d97ff1e3bffe057")
         )
+        intent.putExtra("android.webkit.WebSettings.JAVASCRIPT_ENABLED", true)
         startActivity(intent)
     }
 
@@ -107,7 +139,7 @@ class MyVideoFragment : Fragment() {
             favoriteRvArea.layoutManager = GridLayoutManager(context, 2)
 
         }
-
+        viewModel.getSharedPrefsList()
     }
 
     override fun onStart() {
