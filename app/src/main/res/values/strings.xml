@@ -29,4 +29,6 @@
 
     <string name="search_txt_find_keyword">검색어를 입력해주세요.</string>
     <string name="search_btn_search">검색</string>
+
+    <string name="pref_key_favorite_list">FAVORITE_LIST</string>
 </resources>
