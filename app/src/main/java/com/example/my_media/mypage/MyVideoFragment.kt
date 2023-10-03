@@ -35,6 +35,7 @@ class MyVideoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMyVideoBinding.inflate(inflater, container, false)
+//        viewModel.getSharedPrefsList()
         return binding.root
     }
 
@@ -51,9 +52,9 @@ class MyVideoFragment : Fragment() {
         with(viewModel) {
             likeList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
-                setSharedPrefsList()
+//                setSharedPrefsList()
                 Log.d("jun", "섭밋리스트: $it")
-                adapter.submitList(ArrayList(it))
+//                adapter.submitList(ArrayList(it))
             }
         }
 
@@ -139,7 +140,7 @@ class MyVideoFragment : Fragment() {
             favoriteRvArea.layoutManager = GridLayoutManager(context, 2)
 
         }
-        viewModel.getSharedPrefsList()
+
     }
 
     override fun onStart() {

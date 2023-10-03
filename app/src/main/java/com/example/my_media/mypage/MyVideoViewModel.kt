@@ -1,5 +1,6 @@
 package com.example.my_media.mypage
 
+
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -35,12 +36,12 @@ class MyVideoViewModel(private val contextProvider: ContextProvider) : ViewModel
         val jsonList = pref.getString(prefKey, "") ?: return
 
         val gson = Gson()
-        val type = object: TypeToken<List<MyVideoModel>>() {}.type
+        val type = object : TypeToken<List<MyVideoModel>>() {}.type
         val prefsList = gson.fromJson<List<MyVideoModel>>(jsonList, type) ?: return
         val currentList = likeList.value.orEmpty().toMutableList()
         currentList.addAll(prefsList)
         _likeList.value = currentList
-    }
+         }
 
     fun addLikeItem(item: MyVideoModel) {
         val items = _likeList.value?.toMutableList() ?: mutableListOf()
@@ -52,7 +53,7 @@ class MyVideoViewModel(private val contextProvider: ContextProvider) : ViewModel
             items[i] = item
         }
         _likeList.value = ArrayList(items)
-    }
+           }
 
     fun removeLikeItem(item: MyVideoModel) {
         val items = _likeList.value?.toMutableList() ?: mutableListOf()
@@ -60,16 +61,13 @@ class MyVideoViewModel(private val contextProvider: ContextProvider) : ViewModel
         findRemoveItem?.let {
             items.remove(it)
             _likeList.value = ArrayList(items)
-            Log.d("jun","제거된 아이템$items")
         }
     }
-
 }
+
 class MyVideoViewModelFactory(
     private val context: Context
 ) : ViewModelProvider.Factory {
-
-class MyVideoViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MyVideoViewModel::class.java)) {
             return MyVideoViewModel(ContextProviderImpl(context)) as T

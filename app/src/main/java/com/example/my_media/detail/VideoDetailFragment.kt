@@ -3,6 +3,7 @@ package com.example.my_media.detail
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.example.my_media.main.MainSharedViewModel
 import com.example.my_media.search.SearchModel
 import com.example.my_media.search.toHomePopularModel
 import com.example.my_media.util.showToast
+import kotlin.math.log
 
 class VideoDetailFragment : Fragment() {
     companion object {
@@ -76,24 +78,25 @@ class VideoDetailFragment : Fragment() {
     }
 
     private fun initViewModel(item: HomePopularModel) {
-        item.isLiked = sharedViewModel.getLikeStatus(item.txtTitle)
+        item.isLiked = sharedViewModel.getLikeStatus(item.txtTitle) //호출해서 좋아요 상태확인
         updateLikeButtonUI(item.isLiked)
     }
 
     private fun initView(item: HomePopularModel) = with(binding) {
         likeBtn.setOnClickListener {
             val isLiked = sharedViewModel.getLikeStatus(item.txtTitle)
-            val newItem = item.copy(isLiked = !isLiked)
+            val newItem = item.copy(isLiked = !isLiked) //f
+
             sharedViewModel.toggleLikeItem(newItem)
-            val text = if(isLiked) {
-                requireContext().getString(R.string.detail_toast_unlike)
-            } else {
+            val text = if(!isLiked) {
                 requireContext().getString(R.string.detail_toast_like)
+            } else {
+                requireContext().getString(R.string.detail_toast_unlike)
             }
             requireContext().showToast(
                 text, Toast.LENGTH_SHORT
             )
-            updateLikeButtonUI(newItem.isLiked)
+            updateLikeButtonUI(!isLiked)
         }
         titleArea.text = item.txtTitle
         desArea.text = item.txtDescription
