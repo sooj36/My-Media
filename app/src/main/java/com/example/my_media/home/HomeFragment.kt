@@ -111,9 +111,7 @@ class HomeFragment : Fragment() {
                     Log.d("sooj", "Comedy")
                 }
 
-                else -> {
-                    Unit // 아무 행동도x
-                }
+                else -> ""
             }
             viewModel.getPopularVideo("Bearer $accessToken", videoCategoryId)
             Log.d(

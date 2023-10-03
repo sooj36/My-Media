@@ -28,8 +28,8 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) : 
                 response?.forEach {
                     subscribeItems.add(
                         HomeSubscribeModel(
-                            it.subscribeSnippet?.subscribeThumbnails?.default?.url ?: "",
-                            it.subscribeSnippet?.title ?: ""
+                            it.subscribeSnippet?.subscribeThumbnails?.default?.url.orEmpty(),
+                            it.subscribeSnippet?.title.orEmpty()
                         )
                     )
                 }
@@ -49,9 +49,9 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) : 
             response.forEach {
                 popularVideoItems.add(
                     HomePopularModel(
-                        txtTitle = it.popularSnippet?.title ?: "",
-                        txtDescription = it.popularSnippet?.description ?: "",
-                        imgThumbnail = it.popularSnippet?.popularThumbnails?.standard?.url ?: "",
+                        txtTitle = it.popularSnippet?.title.orEmpty(),
+                        txtDescription = it.popularSnippet?.description.orEmpty(),
+                        imgThumbnail = it.popularSnippet?.popularThumbnails?.standard?.url.orEmpty(),
                         isLiked = false
 
                     )
