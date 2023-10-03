@@ -111,9 +111,7 @@ class HomeFragment : Fragment() {
                     Log.d("sooj", "Comedy")
                 }
 
-                else -> {
-                    Unit // 아무 행동도x
-                }
+                else -> ""
             }
             viewModel.getPopularVideo("Bearer $accessToken", videoCategoryId)
             Log.d(
@@ -124,6 +122,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModel() = with(viewModel) {
+        isEmptySubscribe.observe(viewLifecycleOwner) { isEmpty ->
+            if(isEmpty) {
+                binding.txtEmptySubscribe.visibility = View.VISIBLE
+            } else {
+                binding.txtEmptySubscribe.visibility = View.INVISIBLE
+            }
+        }
         subscribeList.observe(viewLifecycleOwner) {
             homeSubscribeListAdapter.submitList(it)
         }
