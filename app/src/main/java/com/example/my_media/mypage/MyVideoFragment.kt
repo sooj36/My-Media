@@ -69,11 +69,11 @@ class MyVideoFragment : Fragment() {
     }
 
     private fun initView() = with(binding) {
-        githubArea.setOnClickListener {
+        constraintGithub.setOnClickListener {
             openLinkGit()
-            notionArea.setOnClickListener {
-                openLinkNotion()
-            }
+        }
+        constraintNotion.setOnClickListener {
+            openLinkNotion()
         }
         lotti.setAnimation(R.raw.profile)
         lotti.playAnimation()
@@ -117,6 +117,7 @@ class MyVideoFragment : Fragment() {
             Intent.ACTION_VIEW,
             Uri.parse("https://teamsparta.notion.site/12-S-A-f79dc026055d4ec98d97ff1e3bffe057")
         )
+        intent.putExtra("android.webkit.WebSettings.JAVASCRIPT_ENABLED", true)
         startActivity(intent)
     }
 
