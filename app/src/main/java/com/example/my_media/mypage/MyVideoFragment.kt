@@ -23,7 +23,7 @@ class MyVideoFragment : Fragment() {
 
 //    private lateinit var imageViews: List<Int>
     private var _binding: FragmentMyVideoBinding? = null
-    private val viewModel: MyVideoViewModel by viewModels { MyVideoViewModelFactory() }
+    private val viewModel: MyVideoViewModel by viewModels { MyVideoViewModelFactory(requireContext()) }
     private val sharedViewModel: MainSharedViewModel by activityViewModels()
     private val binding get() = _binding!!
     private val adapter: MyVideoAdapter by lazy { binding.favoriteRvArea.adapter as MyVideoAdapter }
@@ -48,6 +48,7 @@ class MyVideoFragment : Fragment() {
         with(viewModel) {
             likeList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
+                setSharedPrefsList()
             }
         }
 
@@ -130,6 +131,7 @@ class MyVideoFragment : Fragment() {
             }
             favoriteRvArea.layoutManager = GridLayoutManager(context, 2)
         }
+        viewModel.getSharedPrefsList()
     }
 
 
