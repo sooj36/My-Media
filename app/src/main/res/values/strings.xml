@@ -16,7 +16,10 @@
     <string name="home_txt_subscribe_videos">구독 리스트</string>
     <string name="home_txt_empty_subscribe">구독된 계정이 없습니다.</string>
 
-    <string name="detail_btn_like">좋아요</string>
+    <string name="detail_btn_like">좋아요버튼</string>
+    <string name="detail_like_count">좋아요갯수</string>
+    <string name="detail_view_count"> 조회갯수</string>
+    <string name="detail_view_string"> 조회수</string>
     <string name="detail_btn_share">공유</string>
     <string name="detail_toast_like">좋아요 리스트에 추가 되었습니다</string>
     <string name="detail_toast_unlike">좋아요 리스트에서 제거 되었습니다</string>

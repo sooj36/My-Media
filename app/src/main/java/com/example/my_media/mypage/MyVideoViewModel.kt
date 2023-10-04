@@ -2,13 +2,11 @@ package com.example.my_media.mypage
 
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.my_media.R
-
 import com.example.my_media.util.ContextProvider
 import com.example.my_media.util.ContextProviderImpl
 import com.google.gson.Gson
@@ -38,11 +36,9 @@ class MyVideoViewModel(private val contextProvider: ContextProvider) : ViewModel
         val prefsList = gson.fromJson<List<MyVideoModel>>(jsonList, type) ?: return
         val currentList = likeList.value.orEmpty().toMutableList()
         currentList.addAll(prefsList)
-
-        _likeList.value = currentList
-         }
-
-
+        val distinctList = currentList.distinctBy { it.title }
+        _likeList.value = distinctList
+    }
 
     fun addLikeItem(item: MyVideoModel) {
         val items = _likeList.value?.toMutableList() ?: mutableListOf()
@@ -54,7 +50,7 @@ class MyVideoViewModel(private val contextProvider: ContextProvider) : ViewModel
             items[i] = item
         }
         _likeList.value = ArrayList(items)
-           }
+    }
 
     fun removeLikeItem(item: MyVideoModel) {
         val items = _likeList.value?.toMutableList() ?: mutableListOf()

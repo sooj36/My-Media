@@ -18,7 +18,7 @@ interface YoutubeRemoteDataSource {
     @GET("youtube/v3/videos")
     suspend fun getPopularVideo(
         @Header("Authorization") token: String,
-        @Query("part") part : String = "snippet",
+        @Query("part") part : String = "snippet,statistics",
         @Query("chart") chart : String = "mostPopular",
         @Query("maxResults") maxResults : Int = 20,
         @Query("regionCode") regionCode : String = "KR",
@@ -27,7 +27,7 @@ interface YoutubeRemoteDataSource {
 
     @GET("youtube/v3/search")
     suspend fun getSearchVideo(
-        @Query("part") part: String,
+        @Query("part") part: String = "snippet,statistics",
         @Query("q") query: String,
         @Query("maxResults") maxResults: Int?,
         @Query("regionCode") regionCode: String?,

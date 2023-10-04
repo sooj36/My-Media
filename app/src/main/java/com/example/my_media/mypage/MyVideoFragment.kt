@@ -1,10 +1,8 @@
 package com.example.my_media.mypage
 
-
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,20 +36,17 @@ class MyVideoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("jun", "lifecycle : onViewCreated")
-        initView()
+              initView()
         setUpRecylclerView()
         initViewModel()
     }
-
     private fun initViewModel() {
         with(viewModel) {
             likeList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
                 sharedViewModel.saveLikeStatus()
                 setSharedPrefsList()
-                Log.d("jun", "섭밋리스트: $it")
-//                adapter.submitList(ArrayList(it))
+
             }
         }
 
@@ -87,7 +82,6 @@ class MyVideoFragment : Fragment() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/12-team-project"))
         startActivity(intent)
     }
-
     private fun openLinkNotion() {
         val intent = Intent(
             Intent.ACTION_VIEW,
@@ -110,32 +104,8 @@ class MyVideoFragment : Fragment() {
             viewModel.getSharedPrefsList()
         }
     }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d("jun", "lifecycle : onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("jun", "lifecycle : onResume")
-
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("jun", "lifecycle : onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("jun", "lifecycle : onStop")
-    }
-
-    override fun onDestroyView() {
+       override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
-        Log.d("jun", "lifecycle : onDestroyView")
-    }
+          }
 }

@@ -28,7 +28,10 @@ class SearchViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) 
                             it.searchSnippet?.title.orEmpty(),
                             it.searchSnippet?.description.orEmpty(),
                             it.searchSnippet?.searchThumbnails?.high?.url.orEmpty(),
-                            isLiked = false
+                            isLiked = false,
+                            it.statistics?.viewCount,
+                            it.statistics?.likeCount,
+                            it.statistics?.commentCount
                         )
                     )
                 }
