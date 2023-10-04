@@ -5,16 +5,16 @@
 1. 프로젝트 소개
 2. 개발 기간
 3. 멤버 구성
-4. 참고 자료
-5. 팀 노션
+4. 팀 노션
+5. 팀 S.A
 
 ## :telephone: 프로젝트 소개
-
+Youtube API를 받아와 인기동영상, 구독리스트, 검색창 을 구현하였습니다.
 
 ## :alarm_clock: 개발 기간 
-2023.09.25 ~ 2023.10.00
+2023.09.25 ~ 2023.10.05 
 
-2023.10.06 발표 예정 
+ 
 
 ## :two_men_holding_hands: 멤버 구성 :couple: 
 |             | 이름           | 깃허브          | 블로그           |     
@@ -26,41 +26,52 @@
 
 ## 
 :runner: 박세준
-- [x]  
-- [x]  
-- [x]  
-- [x]  
+- [x]  VideoDetailFragment
+- [x]  MyVideoFragment
+- [x]  HomeFragment, SearchFragment 에서 넘겨받은 데이터 연결 및 버튼 animation 추가
+- [x]  시연영상 
 
 
 :runner: 김소현
-- [x]  
-- [x] 
-- [x]  
-- [x]  
+- [x]  HomeFragment 구독리스트
+- [x]  UI 통일 및 MainActivity 코드 ViewModel 로 이동 , list clear
+- [x]  발표
 
 
 
 :runner: 김지견
-- [x]  
-- [x]  
-- [x]  
-- [x]  
+- [x]  searchFragment
+- [x]  SearchFragment Infinity Scroll 기능
+- [x]  발표자료 준비
 
 
 :runner: 이수진
-- [x]  
-- [x]  
-- [x]  
-- [x]  
+- [x]  HomeFragment 인기동영상, 카테고리별 인기동영상
+- [x]  README 작성
+      
 
 
 ## 기능 설명
-- #### MainActivity
-(수정예정)
+ #### MainActivity
+- BottomNavigationView 
 
-## :paperclip: 참고 자료
-(수정예정)
-   
+ #### HomeFragment
+- 인기동영상 (키워드에 해당하는 인기동영상 recyclerview로 출력)(가로이동)
+- 구독리스트 (현재 계정의 구독 계정 recyclerview로 출력(StahheredGridLayout)
+- 동영상 클릭 시, videoDeatilFragment 로 이동
+
+ #### SearchFragment
+- 검색어 입력 시 검색 결과창에 recyclerview로 출력
+- 동영상 클릭 시, videoDetailFragment 로 이동
+
+ #### VideoDetailFragment
+- 좋아요, 조회수 데이터 출력
+- 공유버튼
+  
+ #### MyVideoFragment
+- DetailFragment에서 '좋아요' 클릭한 영상
+
+--------------
 
 ## :notebook: 팀 노션
 https://www.notion.so/12-3f5aa5e923ba4c80a40695567a8e9f14
