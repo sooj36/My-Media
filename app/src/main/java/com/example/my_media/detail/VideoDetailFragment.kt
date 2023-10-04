@@ -15,6 +15,7 @@ import com.example.my_media.R
 import com.example.my_media.databinding.FragmentVideoDetailBinding
 import com.example.my_media.home.popular.HomePopularModel
 import com.example.my_media.main.MainSharedViewModel
+import com.example.my_media.main.MainSharedViewModelFactory
 import com.example.my_media.search.SearchModel
 import com.example.my_media.search.toHomePopularModel
 import com.example.my_media.util.showToast
@@ -30,7 +31,7 @@ class VideoDetailFragment : Fragment() {
         }
     }
 
-    private val sharedViewModel: MainSharedViewModel by activityViewModels()
+    private val sharedViewModel: MainSharedViewModel by activityViewModels { MainSharedViewModelFactory(requireContext()) }
     private var _binding: FragmentVideoDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -52,6 +53,7 @@ class VideoDetailFragment : Fragment() {
                 is HomePopularModel -> {
                     init(item)
                     shareUrl(item.imgThumbnail)
+
                 }
                 is SearchModel -> {
                     init(item.toHomePopularModel())
@@ -64,25 +66,20 @@ class VideoDetailFragment : Fragment() {
     private fun init(item: Any) {
         when (item) {
             is HomePopularModel -> {
-                initViewModel(item)
                 initView(item)
-                shareUrl(item.imgThumbnail)
+                initViewModel(item)
+                              shareUrl(item.imgThumbnail)
             }
             is SearchModel -> {
-                initViewModel(item.toHomePopularModel())
                 initView(item.toHomePopularModel())
+                initViewModel(item.toHomePopularModel())
+
                 shareUrl(item.searchedVideo)
             }
             else -> return
         }
     }
-
-    private fun initViewModel(item: HomePopularModel) {
-        item.isLiked = sharedViewModel.getLikeStatus(item.txtTitle) //호출해서 좋아요 상태확인
-        updateLikeButtonUI(item.isLiked)
-    }
-
-    private fun initView(item: HomePopularModel) = with(binding) {
+       private fun initView(item: HomePopularModel) = with(binding) {
         likeBtn.setOnClickListener {
             val isLiked = sharedViewModel.getLikeStatus(item.txtTitle)
             val newItem = item.copy(isLiked = !isLiked) //f
@@ -106,6 +103,11 @@ class VideoDetailFragment : Fragment() {
         backBtn.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
+    }
+    private fun initViewModel(item: HomePopularModel) {
+        item.isLiked = sharedViewModel.getLikeStatus(item.txtTitle) //호출해서 좋아요 상태확인
+        updateLikeButtonUI(item.isLiked)
+
     }
 
     private fun updateLikeButtonUI(isLiked: Boolean) = with(binding) {

@@ -17,32 +17,28 @@ import com.example.my_media.databinding.FragmentMyVideoBinding
 import com.example.my_media.detail.VideoDetailFragment
 import com.example.my_media.main.MainSharedEventforLike
 import com.example.my_media.main.MainSharedViewModel
+import com.example.my_media.main.MainSharedViewModelFactory
 
 class MyVideoFragment : Fragment() {
     companion object {
         fun newInstance() = MyVideoFragment()
     }
-
-//    private lateinit var imageViews: List<Int>
     private var _binding: FragmentMyVideoBinding? = null
     private val viewModel: MyVideoViewModel by viewModels { MyVideoViewModelFactory(requireContext()) }
-    private val sharedViewModel: MainSharedViewModel by activityViewModels()
+    private val sharedViewModel: MainSharedViewModel by activityViewModels { MainSharedViewModelFactory(requireContext()) }
     private val binding get() = _binding!!
     private val adapter: MyVideoAdapter by lazy { binding.favoriteRvArea.adapter as MyVideoAdapter }
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMyVideoBinding.inflate(inflater, container, false)
-//        viewModel.getSharedPrefsList()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("jun", "lifecycle : onViewCreated")
-
         initView()
         setUpRecylclerView()
         initViewModel()
@@ -52,7 +48,8 @@ class MyVideoFragment : Fragment() {
         with(viewModel) {
             likeList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
-//                setSharedPrefsList()
+                sharedViewModel.saveLikeStatus()
+                setSharedPrefsList()
                 Log.d("jun", "섭밋리스트: $it")
 //                adapter.submitList(ArrayList(it))
             }
@@ -84,34 +81,6 @@ class MyVideoFragment : Fragment() {
         }
         lotti.setAnimation(R.raw.profile)
         lotti.playAnimation()
-
-//        imageViews = listOf(
-//            R.drawable.test,
-//            R.drawable.test2,
-//            R.drawable.test3,
-//            R.drawable.test4,
-//            R.drawable.test5,
-//            R.drawable.test6
-//        )
-//
-//        profileImgArea.setOnClickListener {
-//            val nextIndex = Random.nextInt(imageViews.size)
-//            val nextImageResId = imageViews[nextIndex]
-//
-//            val fadeIn = ObjectAnimator.ofFloat(profileImgArea, "alpha", 0f, 1f)
-//            fadeIn.duration = 1000
-//
-//            val fadeOut = ObjectAnimator.ofFloat(profileImgArea, "alpha", 1f, 0f)
-//            fadeOut.duration = 1000
-//
-//            fadeOut.addListener(object : AnimatorListenerAdapter() {
-//                override fun onAnimationEnd(animation: Animator) {
-//                    profileImgArea.setImageResource(nextImageResId)
-//                    fadeIn.start()
-//                }
-//            })
-//            fadeOut.start()
-//        }
     }
 
     private fun openLinkGit() {
@@ -138,9 +107,8 @@ class MyVideoFragment : Fragment() {
                     .commit()
             }
             favoriteRvArea.layoutManager = GridLayoutManager(context, 2)
-
+            viewModel.getSharedPrefsList()
         }
-
     }
 
     override fun onStart() {

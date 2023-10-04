@@ -8,13 +8,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.my_media.R
+
 import com.example.my_media.util.ContextProvider
 import com.example.my_media.util.ContextProviderImpl
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-
-
-//화면 전환 시에도 ui가 데이터 안가져와도 됨
 
 class MyVideoViewModel(private val contextProvider: ContextProvider) : ViewModel() {
     private val _likeList: MutableLiveData<List<MyVideoModel>> = MutableLiveData(mutableListOf())
@@ -40,8 +38,11 @@ class MyVideoViewModel(private val contextProvider: ContextProvider) : ViewModel
         val prefsList = gson.fromJson<List<MyVideoModel>>(jsonList, type) ?: return
         val currentList = likeList.value.orEmpty().toMutableList()
         currentList.addAll(prefsList)
+
         _likeList.value = currentList
          }
+
+
 
     fun addLikeItem(item: MyVideoModel) {
         val items = _likeList.value?.toMutableList() ?: mutableListOf()
