@@ -59,7 +59,10 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) : 
                         txtTitle = it.popularSnippet?.title.orEmpty(),
                         txtDescription = it.popularSnippet?.description.orEmpty(),
                         imgThumbnail = it.popularSnippet?.popularThumbnails?.standard?.url.orEmpty(),
-                        isLiked = false
+                        isLiked = false,
+                        viewCount = it.statistics?.viewCount,
+                        likeCount = it.statistics?.likeCount,
+                        commentCount = it.statistics?.commentCount
 
                     )
                 )

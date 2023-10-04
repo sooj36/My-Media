@@ -9,7 +9,8 @@ data class SearchVideoResponse(
 data class YoutubeVideo(
     @SerializedName("id") val id: YoutubeID?,
     @SerializedName("snippet") val searchSnippet: SearchSnippet?,
-    @SerializedName("contentDetails") val contentDetails: ContentDetails?
+    @SerializedName("contentDetails") val contentDetails: ContentDetails?,
+    @SerializedName("statistics") val statistics: SearchVideoStatistics?
 )
 
 data class YoutubeID(
@@ -22,6 +23,12 @@ data class SearchSnippet(
     @SerializedName("description") val description: String?,
     @SerializedName("thumbnails") val searchThumbnails: SearchThumbnails?
 )
+data class SearchVideoStatistics(
+    @SerializedName("viewCount") val viewCount: Long?,
+    @SerializedName("likeCount") val likeCount: Long?,
+    @SerializedName("commentCount") val commentCount: Long?
+)
+
 
 data class SearchThumbnails(
     @SerializedName("default") val default: SearchThumbnailsUrl?,

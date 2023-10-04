@@ -14,7 +14,14 @@ data class PopularVideosList (
     @SerializedName("channelTitle") val channelTitle : String?,
     @SerializedName("detaultLanguage") val defaultLanguage : String?,
     @SerializedName("categoryId") val categoryId :  String?,
+    @SerializedName("statistics") val statistics: Statistics?
 )
+data class Statistics(
+    @SerializedName("viewCount") val viewCount: Long?,
+    @SerializedName("likeCount") val likeCount: Long?,
+    @SerializedName("commentCount") val commentCount: Long?
+)
+
 
 data class PopularSnippet (
     @SerializedName("publishedAt") val publishedAt : String?,
