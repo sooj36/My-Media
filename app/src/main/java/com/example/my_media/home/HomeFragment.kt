@@ -14,16 +14,12 @@ import com.example.my_media.databinding.FragmentHomeBinding
 import com.example.my_media.detail.VideoDetailFragment
 import com.example.my_media.home.popular.HomePopularListAdapter
 import com.example.my_media.home.subscribe.HomeSubscribeListAdapter
+import com.example.my_media.search.SearchFragment
+import com.example.my_media.util.UserManager
 
 class HomeFragment : Fragment() {
     companion object {
-        fun newInstance(accessToken: String): HomeFragment {
-            val args = Bundle()
-            args.putString("AccessToken", accessToken)
-            val fragment = HomeFragment()
-            fragment.arguments = args
-            return fragment
-        }
+        fun newInstance() = HomeFragment()
     }
 
     private var _binding: FragmentHomeBinding? = null
@@ -76,7 +72,7 @@ class HomeFragment : Fragment() {
             adapter = homePopularListAdapter
         }
 
-        val accessToken = arguments?.getString("AccessToken") ?: ""
+        val accessToken = UserManager.getAccessToken()
         viewModel.getSubscribeList("Bearer $accessToken") //구독 리스트 불러오기
 
         viewModel.getPopularVideo("Bearer $accessToken", "0")
