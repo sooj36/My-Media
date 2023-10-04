@@ -79,51 +79,32 @@ class HomeFragment : Fragment() {
         val accessToken = arguments?.getString("AccessToken") ?: ""
         viewModel.getSubscribeList("Bearer $accessToken") //구독 리스트 불러오기
 
-        viewModel.getPopularVideo(
-            "Bearer $accessToken", "0"
+        viewModel.getPopularVideo("Bearer $accessToken", "0")
+
+        val chips = listOf(
+            R.id.chip_all to "0",
+            R.id.chip_animal to "15",
+            R.id.chip_music to "10",
+            R.id.chip_game to "20",
+            R.id.chip_comedy to "23"
         )
 
         var videoCategoryId = ""
         chipGroup.setOnCheckedChangeListener { group, checkedId ->
-
-            when (chipGroup.checkedChipId) {
-                R.id.chip_all -> {
-                    videoCategoryId = "0"
-                    Log.d("sooj", "$videoCategoryId =")
+            for (i in chips.indices) {
+                if (checkedId == chips.get(i).first) {
+                    videoCategoryId = chips.get(i).second
+                    Log.d("sooj", "chips click ${videoCategoryId}")
                 }
-                R.id.chip_animal -> {
-                    videoCategoryId = "15"
-                    Log.d("sooj", "Pets & Animals")
-                }
-
-                R.id.chip_music -> {
-                    videoCategoryId = "10"
-                    Log.d("sooj", "Music")
-                }
-
-                R.id.chip_game -> {
-                    videoCategoryId = "20"
-                    Log.d("sooj", "Gaming")
-                }
-
-                R.id.chip_comedy -> {
-                    videoCategoryId = "23"
-                    Log.d("sooj", "Comedy")
-                }
-
-                else -> ""
             }
             viewModel.getPopularVideo("Bearer $accessToken", videoCategoryId)
-            Log.d(
-                "sooj",
-                "chip 초기화면 ${viewModel.getPopularVideo("Bearer $accessToken", videoCategoryId)}"
-            )
+            Log.d("sooj", " test : $videoCategoryId ")
         }
     }
 
     private fun initViewModel() = with(viewModel) {
         isEmptySubscribe.observe(viewLifecycleOwner) { isEmpty ->
-            if(isEmpty) {
+            if (isEmpty) {
                 binding.txtEmptySubscribe.visibility = View.VISIBLE
             } else {
                 binding.txtEmptySubscribe.visibility = View.INVISIBLE
