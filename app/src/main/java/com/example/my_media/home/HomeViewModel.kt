@@ -51,23 +51,26 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) : 
 
     fun getPopularVideo(accessToken: String, videoCategoryId : String) { //카테고리 아이디를 파라미터로 받기
         viewModelScope.launch {
-            val response = youtubeRepositoryImpl.getPopularVideo(accessToken, videoCategoryId).items // 모든 데이터
-            val popularVideoItems = ArrayList<HomePopularModel>()
-            response.forEach {
-                popularVideoItems.add(
-                    HomePopularModel(
-                        txtTitle = it.popularSnippet?.title.orEmpty(),
-                        txtDescription = it.popularSnippet?.description.orEmpty(),
-                        imgThumbnail = it.popularSnippet?.popularThumbnails?.standard?.url.orEmpty(),
-                        isLiked = false,
-                        viewCount = it.statistics?.viewCount,
-                        likeCount = it.statistics?.likeCount,
-                        commentCount = it.statistics?.commentCount
-
+            runCatching {
+                val response = youtubeRepositoryImpl.getPopularVideo(accessToken, videoCategoryId).items // 모든 데이터
+                val popularVideoItems = ArrayList<HomePopularModel>()
+                response.forEach {
+                    popularVideoItems.add(
+                        HomePopularModel(
+                            txtTitle = it.popularSnippet?.title.orEmpty(),
+                            txtDescription = it.popularSnippet?.description.orEmpty(),
+                            imgThumbnail = it.popularSnippet?.popularThumbnails?.standard?.url.orEmpty(),
+                            isLiked = false,
+                            viewCount = it.statistics?.viewCount,
+                            likeCount = it.statistics?.likeCount,
+                            commentCount = it.statistics?.commentCount
+                        )
                     )
-                )
-            }// 일부 값 추출
-            _popularVideoList.value = popularVideoItems // 호출
+                }
+                _popularVideoList.postValue(popularVideoItems)
+            }.onFailure {
+                Log.e("Network Failed", it.message.toString())
+            }
         }
     }
 }

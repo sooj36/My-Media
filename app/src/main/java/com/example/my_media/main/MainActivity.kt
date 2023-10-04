@@ -8,11 +8,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
 import com.example.my_media.R
 import com.example.my_media.databinding.ActivityMainBinding
 import com.example.my_media.home.HomeFragment
 import com.example.my_media.mypage.MyVideoFragment
 import com.example.my_media.search.SearchFragment
+import com.example.my_media.util.UserManager
 import com.example.my_media.util.showToast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -25,6 +27,18 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels {
         MainViewModelFactory(applicationContext as Application)
+    }
+
+    private val homeFragment by lazy {
+        HomeFragment.newInstance()
+    }
+
+    private val searchFragment by lazy {
+        SearchFragment.newInstance()
+    }
+
+    private val myVideoFragment by lazy {
+        MyVideoFragment.newInstance()
     }
 
     private val googleAuthLauncher =
@@ -54,7 +68,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewModel() = with(viewModel) {
         tokenData.observe(this@MainActivity) { token ->
-            initView(token)
+            UserManager.setAccessToken(token)
+            initView()
         }
     }
 
@@ -69,25 +84,26 @@ class MainActivity : AppCompatActivity() {
         googleAuthLauncher.launch(googleSignInClient.signInIntent)
     }
 
-    private fun initView(accessToken: String) = with(binding) {
+    private fun initView() = with(binding) {
         this@MainActivity.showToast(
             getString(R.string.main_toast_success_login),
             Toast.LENGTH_SHORT
         )
 
-        val homeFragment = HomeFragment.newInstance(accessToken)
         supportFragmentManager.beginTransaction().add(R.id.frameLayout, homeFragment).commit()
 
         bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.menu_home -> supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, homeFragment).commit()
-
-                R.id.menu_search -> supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, SearchFragment.newInstance()).commit()
-
-                R.id.menu_my_video -> supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, MyVideoFragment.newInstance()).commit()
+            val selectedFragment = when (item.itemId) {
+                R.id.menu_home -> homeFragment
+                R.id.menu_search -> searchFragment
+                R.id.menu_my_video -> myVideoFragment
+                else -> null
+            }
+            if (selectedFragment != null) {
+                if (!selectedFragment.isAdded) {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.frameLayout, selectedFragment).commit()
+                }
             }
             true
         }
