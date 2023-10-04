@@ -41,7 +41,6 @@ Youtube API를 받아와 인기동영상, 구독리스트, 검색창 을 구현�
 
 :runner: 김지견
 - [x]  searchFragment
-- [x]  SearchFragment Infinity Scroll 기능
 - [x]  발표자료 준비
 
 
