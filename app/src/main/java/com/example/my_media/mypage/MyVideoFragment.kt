@@ -1,8 +1,10 @@
 package com.example.my_media.mypage
 
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,30 +17,28 @@ import com.example.my_media.databinding.FragmentMyVideoBinding
 import com.example.my_media.detail.VideoDetailFragment
 import com.example.my_media.main.MainSharedEventforLike
 import com.example.my_media.main.MainSharedViewModel
+import com.example.my_media.main.MainSharedViewModelFactory
 
 class MyVideoFragment : Fragment() {
     companion object {
         fun newInstance() = MyVideoFragment()
     }
-
-//    private lateinit var imageViews: List<Int>
     private var _binding: FragmentMyVideoBinding? = null
     private val viewModel: MyVideoViewModel by viewModels { MyVideoViewModelFactory(requireContext()) }
-    private val sharedViewModel: MainSharedViewModel by activityViewModels()
+    private val sharedViewModel: MainSharedViewModel by activityViewModels { MainSharedViewModelFactory(requireContext()) }
     private val binding get() = _binding!!
     private val adapter: MyVideoAdapter by lazy { binding.favoriteRvArea.adapter as MyVideoAdapter }
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMyVideoBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Log.d("jun", "lifecycle : onViewCreated")
         initView()
         setUpRecylclerView()
         initViewModel()
@@ -48,7 +48,10 @@ class MyVideoFragment : Fragment() {
         with(viewModel) {
             likeList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
+                sharedViewModel.saveLikeStatus()
                 setSharedPrefsList()
+                Log.d("jun", "섭밋리스트: $it")
+//                adapter.submitList(ArrayList(it))
             }
         }
 
@@ -78,34 +81,6 @@ class MyVideoFragment : Fragment() {
         }
         lotti.setAnimation(R.raw.profile)
         lotti.playAnimation()
-
-//        imageViews = listOf(
-//            R.drawable.test,
-//            R.drawable.test2,
-//            R.drawable.test3,
-//            R.drawable.test4,
-//            R.drawable.test5,
-//            R.drawable.test6
-//        )
-//
-//        profileImgArea.setOnClickListener {
-//            val nextIndex = Random.nextInt(imageViews.size)
-//            val nextImageResId = imageViews[nextIndex]
-//
-//            val fadeIn = ObjectAnimator.ofFloat(profileImgArea, "alpha", 0f, 1f)
-//            fadeIn.duration = 1000
-//
-//            val fadeOut = ObjectAnimator.ofFloat(profileImgArea, "alpha", 1f, 0f)
-//            fadeOut.duration = 1000
-//
-//            fadeOut.addListener(object : AnimatorListenerAdapter() {
-//                override fun onAnimationEnd(animation: Animator) {
-//                    profileImgArea.setImageResource(nextImageResId)
-//                    fadeIn.start()
-//                }
-//            })
-//            fadeOut.start()
-//        }
     }
 
     private fun openLinkGit() {
@@ -127,16 +102,40 @@ class MyVideoFragment : Fragment() {
             favoriteRvArea.adapter = MyVideoAdapter(requireContext()) { item ->
                 val fragment = VideoDetailFragment.newInstance(item.toHomePopularModel())
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, fragment).addToBackStack(null).commit()
+                    .replace(R.id.frameLayout, fragment)
+                    .addToBackStack(null)
+                    .commit()
             }
             favoriteRvArea.layoutManager = GridLayoutManager(context, 2)
+            viewModel.getSharedPrefsList()
         }
-        viewModel.getSharedPrefsList()
     }
 
+    override fun onStart() {
+        super.onStart()
+        Log.d("jun", "lifecycle : onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("jun", "lifecycle : onResume")
+
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("jun", "lifecycle : onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("jun", "lifecycle : onStop")
+    }
 
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+        Log.d("jun", "lifecycle : onDestroyView")
     }
 }

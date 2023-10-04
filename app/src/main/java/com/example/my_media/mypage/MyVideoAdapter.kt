@@ -1,6 +1,7 @@
 package com.example.my_media.mypage
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.Animation
@@ -25,17 +26,19 @@ class MyVideoAdapter(val context: Context, val itemClickListener: (MyVideoModel)
     override fun onBindViewHolder(holder: MyVideoAdapter.ViewHolder, position: Int) {
         val lastPosition = -1
         if (holder.adapterPosition > lastPosition){
-        val animation:Animation =AnimationUtils.loadAnimation(context,R.anim.slide_in_row)
-        holder.bindItems(getItem(position))
+            val animation: Animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_row)
+            holder.bindItems(getItem(position))
             holder.itemView.startAnimation(animation)
+            Log.d("jun", "bindViewHolder $position: ${getItem(position)}")
+            Log.d("jun", "Item at $position: ${getItem(position).title}")
         }
     }
+
 
     class TestItemDiffCallback : DiffUtil.ItemCallback<MyVideoModel>() {
         override fun areItemsTheSame(oldItem: MyVideoModel, newItem: MyVideoModel): Boolean {
             return oldItem.title == newItem.title
         }
-
         override fun areContentsTheSame(oldItem: MyVideoModel, newItem: MyVideoModel): Boolean {
             return oldItem == newItem
         }
@@ -52,13 +55,14 @@ class MyVideoAdapter(val context: Context, val itemClickListener: (MyVideoModel)
         }
 
         fun bindItems(item: MyVideoModel) {
-                       binding.apply {
+            binding.apply {
                 item?.photo?.let {
                     binding.imageArea.load(it) {
                         error(R.drawable.test)
                     }
                 }
                 ivTitleArea.text = item.title
+                Log.d("jun", "Binding item: ${item.title}")
             }
         }
     }
