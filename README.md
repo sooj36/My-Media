@@ -1,4 +1,4 @@
-# 📺 MY_MIDEA
+# 📺 MY_Media
 
 
 ## :scroll: 목차
