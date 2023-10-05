@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import coil.load
 import com.example.my_media.R
 import com.example.my_media.databinding.FragmentVideoDetailBinding
@@ -29,8 +30,7 @@ class VideoDetailFragment : Fragment() {
             }
         }
     }
-
-    private val sharedViewModel: MainSharedViewModel by activityViewModels {
+        private val sharedViewModel: MainSharedViewModel by activityViewModels {
         MainSharedViewModelFactory(
             requireContext()
         )
@@ -56,7 +56,6 @@ class VideoDetailFragment : Fragment() {
                 is HomePopularModel -> {
                     init(item)
                     shareUrl(item.imgThumbnail)
-
                 }
 
                 is SearchModel -> {
@@ -89,6 +88,7 @@ class VideoDetailFragment : Fragment() {
     }
 
     private fun initView(item: HomePopularModel) = with(binding) {
+
         likeBtn.setOnClickListener {
             val isLiked = sharedViewModel.getLikeStatus(item.txtTitle)
             val newItem = item.copy(isLiked = !isLiked)
@@ -110,7 +110,10 @@ class VideoDetailFragment : Fragment() {
             updateLikeButtonUI(!isLiked)
             likeCount.text = formatCount(newItem.likeCount)
         }
+        bindItem(item)
+    }
 
+    private fun bindItem(item: HomePopularModel) = with(binding) {
         titleArea.text = item.txtTitle
         desArea.text = item.txtDescription
         likeCount.text = formatCount(item.likeCount)
@@ -118,7 +121,6 @@ class VideoDetailFragment : Fragment() {
         thumbnailArea.load(item.imgThumbnail) {
             error(R.drawable.ic_launcher_background)
         }
-
     }
 
     private fun initViewModel(item: HomePopularModel) {
@@ -155,7 +157,7 @@ class VideoDetailFragment : Fragment() {
     fun formatCount(count: Long?): String {
         if (count == null) return "0"
 
-        val absoluteCount = Math.abs(count) //절대값계산
+        val absoluteCount = Math.abs(count) //절대값계산`
         val countString = when {
             absoluteCount < 1000 -> { //1000미만일경우 카운트 문자열반환
                 count.toString()
