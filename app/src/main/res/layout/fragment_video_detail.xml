@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:text="@string/detail_view_string"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_area" />
 
@@ -48,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:text="@string/detail_view_count"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toEndOf="@+id/view_string"
             app:layout_constraintTop_toBottomOf="@+id/title_area" />
 

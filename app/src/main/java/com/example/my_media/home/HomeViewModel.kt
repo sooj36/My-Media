@@ -23,29 +23,34 @@ class HomeViewModel(private val youtubeRepositoryImpl: YoutubeRepositoryImpl) : 
     val popularVideoList: LiveData<List<HomePopularModel>> get() = _popularVideoList
 
     fun getSubscribeList(accessToken: String) {
-        viewModelScope.launch {
-            runCatching {
-                val response = youtubeRepositoryImpl.getSubscribe(accessToken).items
-                val subscribeItems = ArrayList<HomeSubscribeModel>()
-                if(response.isNullOrEmpty()) {
-                    _isEmptySubscribe.value = true
-                    subscribeItems.add(HomeSubscribeModel(" ", " "))
-                } else {
-                    response.forEach {
-                        subscribeItems.add(
-                            HomeSubscribeModel(
-                                it.subscribeSnippet?.subscribeThumbnails?.default?.url.orEmpty(),
-                                it.subscribeSnippet?.title.orEmpty()
+        if(subscribeList.value.isNullOrEmpty()) {
+            viewModelScope.launch {
+                runCatching {
+                    val response = youtubeRepositoryImpl.getSubscribe(accessToken).items
+                    val subscribeItems = ArrayList<HomeSubscribeModel>()
+                    if(response.isNullOrEmpty()) {
+                        _isEmptySubscribe.value = true
+                        subscribeItems.add(HomeSubscribeModel(" ", " "))
+                    } else {
+                        response.forEach {
+                            subscribeItems.add(
+                                HomeSubscribeModel(
+                                    it.subscribeSnippet?.subscribeThumbnails?.default?.url.orEmpty(),
+                                    it.subscribeSnippet?.title.orEmpty()
+                                )
                             )
-                        )
+                        }
                     }
+                    val currentList = subscribeList.value.orEmpty().toMutableList()
+                    currentList.addAll(subscribeItems)
+                    _subscribeList.postValue(currentList)
+                }.onFailure {
+                    Log.e("Network Failed", it.message.toString())
                 }
-                val currentList = subscribeList.value.orEmpty().toMutableList()
-                currentList.addAll(subscribeItems)
-                _subscribeList.postValue(currentList)
-            }.onFailure {
-                Log.e("Network Failed", it.message.toString())
             }
+        } else {
+            val currentList = subscribeList.value.orEmpty().toMutableList()
+            _subscribeList.value = currentList
         }
     }
 
