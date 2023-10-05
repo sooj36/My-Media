@@ -99,11 +99,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_my_video -> MyVideoFragment.newInstance()
                 else -> null
             }
-            if (selectedFragment != null) {
-                if (!selectedFragment.isAdded) {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout, selectedFragment).commit()
-                }
+            if (selectedFragment != null && !selectedFragment.isAdded) {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frameLayout, selectedFragment).commit()
             }
             true
         }
