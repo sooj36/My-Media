@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
             val selectedFragment = when (item.itemId) {
                 R.id.menu_home -> homeFragment
                 R.id.menu_search -> searchFragment
-                R.id.menu_my_video -> myVideoFragment
+                R.id.menu_my_video -> MyVideoFragment.newInstance()
                 else -> null
             }
             if (selectedFragment != null) {
